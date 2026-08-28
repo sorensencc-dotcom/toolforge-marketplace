@@ -6,7 +6,7 @@ import policy from './diagram-policy.json' with { type: 'json' };
 import { createBackendAdapter } from './backend.mjs';
 import { checkPageObservation } from './checks.mjs';
 
-const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge/wiki';
+const DEFAULT_BASE_URL = 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki';
 const DEFAULT_REPORT_PATH = '.artifacts/wiki-qa/report.json';
 const DEFAULT_CONCURRENCY = 2;
 const MAX_CONCURRENCY = 4;

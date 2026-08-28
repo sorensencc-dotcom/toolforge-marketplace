@@ -10,7 +10,7 @@ const root = path.resolve(here, '..');
 const args = process.argv.slice(2);
 const value = (name, fallback = null) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
 
-const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'https://github.com/sorensencc-dotcom/toolforge.wiki.git');
+const repoUrl = value('--repo-url', process.env.WIKI_REPO_URL || 'https://github.com/sorensencc-dotcom/toolforge-marketplace.wiki.git');
 const targetWikiDir = path.resolve(root, value('--target-dir', '.wiki-publish-temp'));
 const shouldPush = args.includes('--push') || process.env.AUTO_PUSH === 'true' || true;
 const commitMessage = value('--commit-msg', 'docs(wiki): synchronize Toolforge platform documentation, guides, and sidebar');

@@ -90,7 +90,7 @@ test('rejects explicit pages outside the configured Wiki origin or prefix', asyn
 test('passes .markdown-body content selector to the adapter for GitHub-rendered wiki pages', async () => {
   const seen = [];
   const result = await runWikiQa({
-    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
+    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki',
     WIKI_QA_PAGES: 'GOVERNANCE',
   }, dependencies(createAdapter(async (url, options) => {
     seen.push(options?.contentSelector ?? null);
@@ -104,7 +104,7 @@ test('passes .markdown-body content selector to the adapter for GitHub-rendered 
 test('passes the GitHub Wiki path as the default link scope', async () => {
   const seen = [];
   await runWikiQa({
-    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge/wiki',
+    WIKI_QA_BASE_URL: 'https://github.com/sorensencc-dotcom/toolforge-marketplace/wiki',
     WIKI_QA_PAGES: 'GOVERNANCE',
   }, dependencies(createAdapter(async (url, options) => {
     seen.push(options?.linkScope ?? null);
