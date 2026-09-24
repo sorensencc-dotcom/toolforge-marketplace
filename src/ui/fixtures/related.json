@@ -1,0 +1,9 @@
+{
+  "data": [
+    { "id": 2, "name": "lint-guard", "description": "Pre-commit lint gate with autofix.", "category": "linting", "owner": "cic-team", "status": "published", "rating": { "average": 4.6, "count": 42 } },
+    { "id": 3, "name": "style-forge", "description": "Opinionated formatter for mixed codebases.", "category": "linting", "owner": "ashworks", "status": "published", "rating": { "average": 4.2, "count": 28 } },
+    { "id": 4, "name": "type-sentry", "description": "Incremental type checking on changed files.", "category": "linting", "owner": "cic-team", "status": "published", "rating": { "average": 4.8, "count": 63 } },
+    { "id": 5, "name": "dead-code-sweep", "description": "Finds and flags unreachable exports.", "category": "linting", "owner": "brasswork", "status": "published", "rating": { "average": 3.9, "count": 15 } },
+    { "id": 6, "name": "import-order", "description": "Deterministic import sorting and grouping.", "category": "linting", "owner": "cic-team", "status": "published", "rating": { "average": 4.1, "count": 33 } }
+  ]
+}

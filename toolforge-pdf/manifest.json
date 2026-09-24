@@ -1,0 +1,27 @@
+{
+  "id": "toolforge-pdf-ingestion",
+  "name": "PDF Ingestion",
+  "version": "1.0.0",
+  "description": "Extract structured content from a PDF",
+  "status": "active",
+  "category": "utility",
+  "runtime": "node",
+  "entrypoint": "server.js",
+  "owner": "soren",
+  "type": "local",
+  "main": "server.js",
+  "commands": {
+    "ingest": {
+      "description": "Extract structured content from a PDF",
+      "argsSchema": "v1",
+      "args": [
+        {
+          "name": "file",
+          "type": "string",
+          "required": true,
+          "description": "Path to the PDF file"
+        }
+      ]
+    }
+  }
+}

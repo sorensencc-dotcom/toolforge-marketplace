@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+if [ -z "$1" ]; then
+  echo "Error: Missing path to PDF file."
+  echo "Usage: pdf-ingest <file.pdf>"
+  exit 1
+fi
+toolforge exec toolforge-pdf-ingestion ingest "$1"

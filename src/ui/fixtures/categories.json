@@ -1,0 +1,11 @@
+{
+  "data": [
+    { "id": 1, "slug": "linting", "displayName": "Linting", "description": "Static analysis and code style enforcement.", "parentId": null, "sortOrder": 1, "skillCount": 8 },
+    { "id": 2, "slug": "auth", "displayName": "Auth", "description": "Authentication and authorization tooling.", "parentId": null, "sortOrder": 2, "skillCount": 5 },
+    { "id": 3, "slug": "analytics", "displayName": "Analytics", "description": "Metrics, tracking, and reporting.", "parentId": null, "sortOrder": 3, "skillCount": 6 },
+    { "id": 4, "slug": "deployment", "displayName": "Deployment", "description": "Release, CI/CD, and delivery pipelines.", "parentId": null, "sortOrder": 4, "skillCount": 11 },
+    { "id": 5, "slug": "testing", "displayName": "Testing", "description": "Unit, integration, and E2E frameworks.", "parentId": null, "sortOrder": 5, "skillCount": 9 },
+    { "id": 6, "slug": "devtools", "displayName": "Devtools", "description": "Developer productivity utilities.", "parentId": null, "sortOrder": 6, "skillCount": 14 },
+    { "id": 7, "slug": "security", "displayName": "Security", "description": "Scanning, secrets, and hardening.", "parentId": null, "sortOrder": 7, "skillCount": 4 }
+  ]
+}

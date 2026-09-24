@@ -1,0 +1,22 @@
+{
+  "7d": {
+    "data": [
+      { "id": 4, "name": "type-sentry", "description": "Incremental type checking on changed files.", "category": "linting", "owner": "cic-team", "status": "published", "rating": { "average": 4.8, "count": 63 }, "installs7d": 412, "installs30d": 980, "growthPct": 34.5, "trendDirection": "up" },
+      { "id": 11, "name": "deploy-anvil", "description": "Zero-downtime rollout orchestration.", "category": "deployment", "owner": "brasswork", "status": "published", "rating": { "average": 4.5, "count": 51 }, "installs7d": 388, "installs30d": 1120, "growthPct": 21.2, "trendDirection": "up" },
+      { "id": 1, "name": "kb-sync-nightly", "description": "Nightly knowledge-base synchronization.", "category": "devtools", "owner": "cic-team", "status": "published", "rating": { "average": 4.3, "count": 88 }, "installs7d": 301, "installs30d": 1340, "growthPct": 0.0, "trendDirection": "stable" },
+      { "id": 22, "name": "secret-scan", "description": "Pre-push secret and credential detection.", "category": "security", "owner": "ashworks", "status": "published", "rating": { "average": 4.7, "count": 37 }, "installs7d": 274, "installs30d": 690, "growthPct": 12.8, "trendDirection": "up" },
+      { "id": 8, "name": "flaky-hunter", "description": "Detects and quarantines flaky tests.", "category": "testing", "owner": "cic-team", "status": "published", "rating": { "average": 4.0, "count": 24 }, "installs7d": 190, "installs30d": 820, "growthPct": -8.3, "trendDirection": "down" },
+      { "id": 15, "name": "metric-tap", "description": "Drop-in analytics event capture.", "category": "analytics", "owner": "brasswork", "status": "published", "rating": { "average": 3.8, "count": 19 }, "installs7d": 142, "installs30d": 470, "growthPct": 5.1, "trendDirection": "up" }
+    ]
+  },
+  "30d": {
+    "data": [
+      { "id": 1, "name": "kb-sync-nightly", "description": "Nightly knowledge-base synchronization.", "category": "devtools", "owner": "cic-team", "status": "published", "rating": { "average": 4.3, "count": 88 }, "installs7d": 301, "installs30d": 1340, "growthPct": 18.6, "trendDirection": "up" },
+      { "id": 11, "name": "deploy-anvil", "description": "Zero-downtime rollout orchestration.", "category": "deployment", "owner": "brasswork", "status": "published", "rating": { "average": 4.5, "count": 51 }, "installs7d": 388, "installs30d": 1120, "growthPct": 15.9, "trendDirection": "up" },
+      { "id": 4, "name": "type-sentry", "description": "Incremental type checking on changed files.", "category": "linting", "owner": "cic-team", "status": "published", "rating": { "average": 4.8, "count": 63 }, "installs7d": 412, "installs30d": 980, "growthPct": 27.4, "trendDirection": "up" },
+      { "id": 8, "name": "flaky-hunter", "description": "Detects and quarantines flaky tests.", "category": "testing", "owner": "cic-team", "status": "published", "rating": { "average": 4.0, "count": 24 }, "installs7d": 190, "installs30d": 820, "growthPct": 2.0, "trendDirection": "stable" },
+      { "id": 22, "name": "secret-scan", "description": "Pre-push secret and credential detection.", "category": "security", "owner": "ashworks", "status": "published", "rating": { "average": 4.7, "count": 37 }, "installs7d": 274, "installs30d": 690, "growthPct": 9.7, "trendDirection": "up" },
+      { "id": 15, "name": "metric-tap", "description": "Drop-in analytics event capture.", "category": "analytics", "owner": "brasswork", "status": "published", "rating": { "average": 3.8, "count": 19 }, "installs7d": 142, "installs30d": 470, "growthPct": -4.2, "trendDirection": "down" }
+    ]
+  }
+}
