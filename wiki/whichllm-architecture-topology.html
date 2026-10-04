@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TorqueQuery & WhichLLM Architecture Topology</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f2ece2;
+    color: #2c2420;
+    font-family: 'Barlow Condensed', sans-serif;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .diagram-container {
+    background-color: #f2ece2;
+    border: 2px solid #5c5349;
+    padding: 36px;
+    width: 1000px;
+    box-shadow: 6px 6px 0px #5c5349;
+  }
+  .header {
+    border-bottom: 2px solid #c4501a;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #2c2420;
+    letter-spacing: -0.5px;
+  }
+  .title-group p {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    color: #5c5349;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .badge {
+    background-color: #2c2420;
+    color: #f2ece2;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .node-rect {
+    fill: #f2ece2;
+    stroke: #2c2420;
+    stroke-width: 2;
+  }
+  .node-accent {
+    fill: #f2ece2;
+    stroke: #c4501a;
+    stroke-width: 2;
+  }
+  .node-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    fill: #2c2420;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .node-title-accent {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    fill: #c4501a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .node-desc {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    fill: #5c5349;
+  }
+  .connector {
+    stroke: #5c5349;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 4 4;
+  }
+  .connector-solid {
+    stroke: #2c2420;
+    stroke-width: 2;
+    fill: none;
+  }
+  .arrowhead {
+    fill: #2c2420;
+  }
+  .arrowhead-accent {
+    fill: #c4501a;
+  }
+  .footer-note {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px dashed #5c5349;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #5c5349;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="header">
+    <div class="title-group">
+      <h1>TorqueQuery & WhichLLM Architecture Topology</h1>
+      <p>Cathryn Lavery Diagram Standard • Specification v2.4.0</p>
+    </div>
+    <div class="badge">AMENDMENT §2/S3-A1</div>
+  </div>
+
+  <svg viewBox="0 0 920 540" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
+      </marker>
+      <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead-accent" />
+      </marker>
+    </defs>
+
+    <!-- Node 1: TorqueQuery Router -->
+    <g transform="translate(180, 20)">
+      <rect class="node-rect" width="560" height="110" rx="2"/>
+      <text x="20" y="32" class="node-title">TorqueQuery Router / Planner</text>
+      <text x="20" y="56" class="node-desc">• Contract Validation (Scope S0–S4, Hard Token/Call/Cost Limits)</text>
+      <text x="20" y="74" class="node-desc">• Cheapest-Capable Model Selection (Tier 0: Free Cloud / Local)</text>
+      <text x="20" y="92" class="node-desc">• Circuit Breakers (Deterministic Backoff, Escalation on no_progress)</text>
+    </g>
+
+    <!-- Arrow 1 -> 2 -->
+    <path d="M 460 130 L 460 170" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Node 2: WhichLLM Adapter -->
+    <g transform="translate(140, 180)">
+      <rect class="node-rect" width="640" height="120" rx="2"/>
+      <text x="20" y="32" class="node-title">WhichLLM Adapter</text>
+      <text x="20" y="56" class="node-desc">• Model Registry & Rate Card Mapping (OpenRouter, Anthropic, Ollama)</text>
+      <text x="20" y="74" class="node-desc">• Deterministic Single-Stringify Request Serialization (deriveId(payload))</text>
+      <text x="20" y="92" class="node-desc">• Pre-Flight BFCL Capability Scoring Gate (whichllm-bfcl-evaluator score >= 0.85)</text>
+    </g>
+
+    <!-- Arrow 2 -> 3A (OpenRouter) -->
+    <path d="M 300 300 L 300 360" class="connector-solid" marker-end="url(#arrow-accent)"/>
+
+    <!-- Arrow 2 -> 3B (Local/Frontier) -->
+    <path d="M 620 300 L 620 360" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Node 3A: OpenRouter Provider Adapter -->
+    <g transform="translate(40, 370)">
+      <rect class="node-accent" width="400" height="120" rx="2"/>
+      <text x="20" y="32" class="node-title-accent">OpenRouterProvider Adapter</text>
+      <text x="20" y="56" class="node-desc">• Endpoint: openrouter.ai/api/v1</text>
+      <text x="20" y="74" class="node-desc">• Target: openrouter/oxalpha (1.05M ctx, $0.00/1M)</text>
+      <text x="20" y="92" class="node-desc">• Usage Normalization & Rate Card Billing</text>
+    </g>
+
+    <!-- Node 3B: Local / Frontier Providers -->
+    <g transform="translate(480, 370)">
+      <rect class="node-rect" width="400" height="120" rx="2"/>
+      <text x="20" y="32" class="node-title">Local / Frontier Providers</text>
+      <text x="20" y="56" class="node-desc">• Ollama / Local Open Weights (Qwen2.5-Coder, Llama-3)</text>
+      <text x="20" y="74" class="node-desc">• Anthropic / OpenAI (Claude 3.5 Sonnet, GPT-4o)</text>
+      <text x="20" y="92" class="node-desc">• Hard Budget Gating & Lineage Hash Chain</text>
+    </g>
+
+  </svg>
+
+  <div class="footer-note">
+    <span>LINEAGE: SHA-256 WIRE-EXACT PAYLOAD CHAIN</span>
+    <span>PALETTE: CATHRYN LAVERY WARM PAPER (#F2ECE2)</span>
+  </div>
+</div>
+
+</body>
+</html>
