@@ -1,0 +1,8 @@
+{
+  "name": "morning-ingestion-pass",
+  "version": "1.0.0",
+  "description": "Deterministic morning ingestion pass and daily inbox signal digest.",
+  "author": {
+    "name": "Chris Sorensen"
+  }
+}

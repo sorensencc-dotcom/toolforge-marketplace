@@ -1,0 +1,8 @@
+{
+  "name": "worktree-cleanup",
+  "version": "1.0.0",
+  "description": "Audit, safely triage, and prune git worktrees across repositories.",
+  "author": {
+    "name": "Chris Sorensen"
+  }
+}

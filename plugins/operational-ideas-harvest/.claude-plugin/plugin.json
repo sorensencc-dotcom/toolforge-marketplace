@@ -1,0 +1,8 @@
+{
+  "name": "operational-ideas-harvest",
+  "version": "1.0.0",
+  "description": "Sweep operational notebooks and emit strongly-typed triage cards.",
+  "author": {
+    "name": "Chris Sorensen"
+  }
+}

@@ -1,0 +1,43 @@
+name: Validate and Build Marketplace
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Make Validation Script Executable
+        run: chmod +x scripts/validate.sh
+
+      - name: Run Marketplace Validation
+        run: ./scripts/validate.sh
+
+      - name: Install UI Dependencies
+        working-directory: ./ui
+        if: hashFiles('./ui/package.json') != ''
+        run: npm ci
+
+      - name: Generate Static UI Catalog Artifact
+        working-directory: ./ui
+        if: hashFiles('./ui/package.json') != ''
+        run: node ../scripts/build-catalog.js
+
+      - name: Build Static UI (if Next.js/Vite project)
+        working-directory: ./ui
+        if: hashFiles('./ui/package.json') != ''
+        run: npm run build
