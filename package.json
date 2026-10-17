@@ -14,7 +14,7 @@
     "load:marketplace": "node src/load-tests/marketplace-load.js",
     "api:dev": "node --watch src/api/server.js",
     "api:build": "echo 'ESM, no build needed'",
-    "validate:marketplace": "bash scripts/validate.sh",
+    "validate:marketplace": "bash scripts/validate.sh --strict",
     "build:catalog": "node scripts/build-catalog.js",
     "ui:dev": "vite src/ui",
     "ui:build": "node scripts/build-catalog.js && vite build src/ui",

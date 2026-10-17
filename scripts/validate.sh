@@ -4,7 +4,17 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MARKETPLACE_JSON="${REPO_ROOT}/.claude-plugin/marketplace.json"
 
+STRICT_MODE=false
+for arg in "$@"; do
+  if [[ "$arg" == "--strict" ]]; then
+    STRICT_MODE=true
+  fi
+done
+
 echo "==> Validating Toolforge Marketplace at: ${REPO_ROOT}"
+if [[ "${STRICT_MODE}" == "true" ]]; then
+  echo "==> Running in STRICT validation mode"
+fi
 
 # 1. Dependency Check
 if ! command -v jq >/dev/null 2>&1; then
@@ -102,12 +112,42 @@ for ((i = 0; i < PLUGIN_COUNT; i++)); do
       if [[ -z "${AUTHOR_NAME}" ]]; then
         echo "[WARN] plugins[${i}] (${P_NAME}): 'author.name' missing in plugin.json (triggers Claude CLI warning)."
       fi
+
+      if [[ "${STRICT_MODE}" == "true" ]]; then
+        FILE_COUNT=$(find "${TARGET_DIR}" -type f | wc -l | tr -d ' ')
+        if [[ "${FILE_COUNT}" -lt 3 ]]; then
+          echo "[ERROR] [STRICT] plugins[${i}] (${P_NAME}): directory contains only ${FILE_COUNT} files; at least 3 files required." >&2
+          exit 1
+        fi
+      fi
     fi
   elif [[ "${P_SOURCE_TYPE}" == "object" ]]; then
     SRC_KIND=$(jq -r ".plugins[${i}].source.source // empty" "${MARKETPLACE_JSON}")
     if [[ -z "${SRC_KIND}" ]]; then
       echo "[ERROR] plugins[${i}] (${P_NAME}): object source missing 'source' type field (e.g., github, url, git-subdir)." >&2
       exit 1
+    fi
+
+    if [[ "${STRICT_MODE}" == "true" && "${SRC_KIND}" == "github" ]]; then
+      P_REF=$(jq -r ".plugins[${i}].source.ref // empty" "${MARKETPLACE_JSON}")
+      P_SHA=$(jq -r ".plugins[${i}].source.sha // empty" "${MARKETPLACE_JSON}")
+
+      case "${P_REF}" in
+        main|master|dev|develop|HEAD)
+          echo "[ERROR] [STRICT] plugins[${i}] (${P_NAME}): floating ref '${P_REF}' forbidden in strict mode; must pin to a release tag or commit SHA." >&2
+          exit 1
+          ;;
+      esac
+
+      IS_SEMVER=false
+      if [[ "${P_REF}" =~ ^v?[0-9]+\.[0-9]+ ]]; then
+        IS_SEMVER=true
+      fi
+
+      if [[ "${IS_SEMVER}" != "true" && -z "${P_SHA}" ]]; then
+        echo "[ERROR] [STRICT] plugins[${i}] (${P_NAME}): either a semantic version tag in 'ref' or a 'sha' must be present in strict mode." >&2
+        exit 1
+      fi
     fi
   else
     echo "[ERROR] plugins[${i}] (${P_NAME}): invalid 'source' field." >&2

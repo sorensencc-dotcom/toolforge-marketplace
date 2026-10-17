@@ -5,7 +5,7 @@
     "name": "Chris Sorensen",
     "email": "sorensencc@gmail.com"
   },
-  "generatedAt": "2026-10-17T15:47:19.092Z",
+  "generatedAt": "2026-10-17T16:26:01.316Z",
   "totalPlugins": 4,
   "plugins": [
     {
@@ -18,7 +18,7 @@
       "source": "./plugins/worktree-cleanup",
       "isLocal": true,
       "installCommand": "claude plugin install worktree-cleanup@toolforge",
-      "fileCount": 2
+      "fileCount": 6
     },
     {
       "name": "morning-ingestion-pass",
@@ -30,7 +30,7 @@
       "source": "./plugins/morning-ingestion-pass",
       "isLocal": true,
       "installCommand": "claude plugin install morning-ingestion-pass@toolforge",
-      "fileCount": 2
+      "fileCount": 6
     },
     {
       "name": "operational-ideas-harvest",
@@ -42,7 +42,7 @@
       "source": "./plugins/operational-ideas-harvest",
       "isLocal": true,
       "installCommand": "claude plugin install operational-ideas-harvest@toolforge",
-      "fileCount": 2
+      "fileCount": 6
     },
     {
       "name": "toolforge-core",
@@ -55,7 +55,8 @@
       "source": {
         "source": "github",
         "repo": "sorensencc-dotcom/toolforge",
-        "ref": "main"
+        "ref": "v2.95.7",
+        "sha": "bdd6dca8d0a05df96c0a2633764b493620aed28f"
       },
       "isLocal": false,
       "installCommand": "claude plugin install toolforge-core@toolforge",

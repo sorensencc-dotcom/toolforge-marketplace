@@ -26,7 +26,8 @@
       "source": {
         "source": "github",
         "repo": "sorensencc-dotcom/toolforge",
-        "ref": "main"
+        "ref": "v2.95.7",
+        "sha": "bdd6dca8d0a05df96c0a2633764b493620aed28f"
       },
       "description": "External repository link to core Toolforge utilities."
     }

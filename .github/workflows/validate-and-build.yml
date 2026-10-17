@@ -25,7 +25,7 @@ jobs:
         run: chmod +x scripts/validate.sh
 
       - name: Run Marketplace Validation
-        run: ./scripts/validate.sh
+        run: ./scripts/validate.sh --strict
 
       - name: Install UI Dependencies
         working-directory: ./ui
