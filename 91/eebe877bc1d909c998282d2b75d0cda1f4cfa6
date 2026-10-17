@@ -1,0 +1,36 @@
+.claude-plugin/marketplace.json
+  h_5c172e9b435f5a 29-30
+.github/workflows/validate-and-build.yml
+  h_5c172e9b435f5a 28
+package.json
+  h_5c172e9b435f5a 17
+plugins/morning-ingestion-pass/README.md
+  h_5c172e9b435f5a 1-25
+plugins/morning-ingestion-pass/skills/morning-ingestion-pass/SKILL.md
+  h_5c172e9b435f5a 1-70
+plugins/operational-ideas-harvest/README.md
+  h_5c172e9b435f5a 1-25
+plugins/operational-ideas-harvest/skills/operational-ideas-harvest/SKILL.md
+  h_5c172e9b435f5a 1-64
+plugins/worktree-cleanup/README.md
+  h_5c172e9b435f5a 1-30
+plugins/worktree-cleanup/skills/worktree-cleanup/SKILL.md
+  h_5c172e9b435f5a 1-63
+scripts/validate.sh
+  h_5c172e9b435f5a 7-13,15-17,115-122,130-151
+src/ui/public/api/plugins.json
+  h_5c172e9b435f5a 8,21,33,45,58-59
+ui/public/api/plugins.json
+  h_5c172e9b435f5a 8,21,33,45,58-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "91eebe877bc1d909c998282d2b75d0cda1f4cfa6",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
