@@ -1,0 +1,14 @@
+docs/plans/anthropic-directory-publishing.md
+  h_5c172e9b435f5a 1-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f2c2954bf08dab9cc19a8dc6fe20832f967a5f88",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
