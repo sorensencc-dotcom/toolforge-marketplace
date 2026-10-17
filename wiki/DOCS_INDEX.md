@@ -1,187 +1,64 @@
 <!--
-title: "Toolforge Documentation Index"
+title: "Toolforge Marketplace Documentation Index"
 status: active
 owner: chris
-last-reviewed: 2026-09-27
+last-reviewed: 2026-10-17
 brand: product-toolforge
 -->
 
-# Toolforge Documentation Index
+# Toolforge Marketplace Documentation Index
 
-Auto-generated index of all Toolforge tool documentation.
-
-**Generated**: 2026-06-28  
-**Tools Documented**: 5 active  
+Index of all architecture specifications, visual diagrams, plugin guides, and operational runbooks for the Toolforge Marketplace.
 
 ---
 
-## Sync-Tools
+## Architecture diagrams (Cathryn Lavery standard)
 
-Multi-repository scanning, drift detection, and synchronization tools.
+All diagrams below follow Cathryn Lavery's `diagram-design` standard using the updated 2026-10-17 tokens (`#f5f5f5` paper, `#2d3142` ink, `#4f5d75` muted, `#bf4520` burnt-tangerine accent, `Instrument Serif` titles, `Geist` sans node names, and `Geist Mono` technical sublabels).
 
-### multiRepoRoadmapSync
-
-Unified drift detector + roadmap updater for sorensencc-dotcom repos.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Schedule**: Daily 09:00 UTC
-- **Dependencies**: Node.js 20+, PowerShell 7+
-- **Tool tags**: sync, automation, multi-repo
-
-Quick start:
-```powershell
-.\run-tool.ps1 -Run multiRepoRoadmapSync -Config repo-registry.json
-```
+| Diagram Name | Standalone HTML | Rendered PNG Asset | System Scope |
+|---|---|---|---|
+| **Marketplace Architecture** | [toolforge-marketplace-architecture.html](toolforge-marketplace-architecture.html) | `![Marketplace Architecture](toolforge-marketplace-architecture.png)` | Client ingress, Claude Code catalog, validation, REST API, UI, and PostgreSQL pool. |
+| **Platform Execution Overview** | [toolforge-architecture-overview.html](toolforge-architecture-overview.html) | `![Architecture Overview](toolforge-architecture-overview.png)` | Gateway layer, sandboxed execution runtime, tool registry, and telemetry. |
+| **WhichLLM Model Selection Topology** | [whichllm-architecture-topology.html](whichllm-architecture-topology.html) | `![WhichLLM Topology](whichllm-architecture-topology.png)` | TorqueQuery router, WhichLLM adapter, OpenRouter preview, and local weights. |
+| **TRM Cognitive Gap Triage** | [trm-gap-triage-architecture.html](trm-gap-triage-architecture.html) | `![TRM Gap Triage](trm-gap-triage-architecture.png)` | Closed-loop gap triage, SQLite FTS5 search, query expansion, and RFC note synthesis. |
 
 ---
 
-## Daemons
+## Verified Claude Code marketplace plugins
 
-Background services and long-running processes.
-
-### toolforgeManifestSync
-
-Background daemon that syncs toolforge manifest index.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Schedule**: Every 15 minutes
-- **Dependencies**: PowerShell 7+
-- **Tool tags**: daemon, metadata
-
-Automatically discovers new tools and updates manifest.json.
-
-### toolforgeDocsSync
-
-Background daemon that regenerates tool documentation.
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+
-- **Tool tags**: daemon, documentation
-
-Extracts tool metadata and generates markdown docs in `C:\dev\toolforge\docs\<category>\`.
-
-### toolforgeIndexSync
-
-Background daemon that updates tool index (INDEX.md).
-
-- **Version**: 0.1.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+
-- **Tool tags**: daemon, metadata
-
-Generates human-readable tool index from manifest.json.
+| Plugin Name | Type | Directory / Target | Manifest Path | Status |
+|---|---|---|---|---|
+| **worktree-cleanup** | Local Plugin | `plugins/worktree-cleanup` | `plugins/worktree-cleanup/.claude-plugin/plugin.json` | Verified (`1.0.0`) |
+| **morning-ingestion-pass** | Local Plugin | `plugins/morning-ingestion-pass` | `plugins/morning-ingestion-pass/.claude-plugin/plugin.json` | Verified (`1.0.0`) |
+| **operational-ideas-harvest** | Local Plugin | `plugins/operational-ideas-harvest` | `plugins/operational-ideas-harvest/.claude-plugin/plugin.json` | Verified (`1.0.0`) |
+| **toolforge-core** | External Repo | `github:sorensencc-dotcom/toolforge` | Pinned to release `v2.95.7` (`bdd6dca8d0...`) | Pinned (`v2.95.7`) |
 
 ---
 
-## Utilities
+## Marketplace core documentation
 
-Setup, installation, and helper scripts.
-
-### setupTaskScheduler
-
-Windows Task Scheduler registration for toolforge daemons and sync-tools.
-
-- **Version**: 1.0.0
-- **Status**: active
-- **Dependencies**: PowerShell 7+, Administrator privileges
-- **Tool tags**: setup, scheduling, windows
-
-Quick start:
-```powershell
-& "C:\dev\toolforge\utilities\setup-task-scheduler\setup-task-scheduler.ps1" -Install
-```
+- [[Home]]: Primary overview of the Toolforge Marketplace, subsystems, and distribution channels.
+- [[QUICKSTART]]: Step-by-step onboarding guide for Claude Code users and developers.
+- [[INDEX]]: Complete index of skills, categories, and command parameters.
+- [[GOVERNANCE]]: Operational governance, SemVer compliance rules, and strict validation policies.
 
 ---
 
-## Reserved Categories
+## Operational and infrastructure runbooks
 
-The following categories are documented but currently have no active tools:
-
-- **adapters/**: Data transformers (Phase 3)
-- **mcp-servers/**: MCP server implementations (Phase 4)
-- **scaffolds/**: Template generators (Phase 3)
-- **prototypes/**: Experimental tools (on-demand)
-
----
-
-## Documentation Structure
-
-Each tool documentation file includes:
-
-- **Purpose**: What the tool does
-- **Inputs**: Configuration files, data sources
-- **Outputs**: Generated files, logs, reports
-- **Behavior**: Step-by-step operation flow
-- **Dependencies**: Required software/privileges
-- **Entrypoint**: Script file and runtime
-- **Configuration**: Config file format (if applicable)
-- **Schedule**: Execution frequency (if scheduled)
-- **Error Handling**: Exit codes and failure modes
-- **Examples**: Common usage patterns
-- **Notes**: Important operational details
-- **See Also**: Related tools and references
+- [[TOOL_CREATION_GUIDE]]: Instructions for packaging and registering new tools into the catalog.
+- [[OPERATOR_GUIDE]]: Day-to-day operations, registry maintenance, and cache invalidation.
+- [[OPERATOR-COMMANDS]]: Command-line quick reference for operators and automated daemons.
+- [[PRODUCTION_PREREQUISITES]]: Environmental requirements, PostgreSQL configuration, and network topology.
+- [[OLLAMA_DEPLOYMENT_GUIDE]]: Local inference setup for background query expansion and model routing.
+- [[OLLAMA_PROVIDER_SETUP]]: Provider adapter configuration for local open-weight LLMs.
+- [[ROLLBACK_RUNBOOK]]: Emergency rollback procedures for corrupted migrations or database failovers.
+- [[whichllm-model-selection-evaluator]]: BFCL evaluation benchmark and model routing thresholds.
 
 ---
 
-## Quick Reference
+## Audits and verification logs
 
-| Tool | Category | Type | Schedule |
-|------|----------|------|----------|
-| multiRepoRoadmapSync | sync-tools | Multi-repo scanner | Daily 09:00 UTC |
-| toolforgeManifestSync | daemons | Background daemon | Every 15 min |
-| toolforgeDocsSync | daemons | Background daemon | On-demand |
-| toolforgeIndexSync | daemons | Background daemon | On-demand |
-| setupTaskScheduler | utilities | Setup tool | N/A (one-time) |
-
-**Total**: 5 active tools across 3 categories
-
----
-
-## How to Use These Docs
-
-1. **Find a tool**: Look through categories above or use search
-2. **Understand purpose**: Read "Purpose" section
-3. **Configure**: See "Configuration" or "Inputs" section
-4. **Run**: Check "Examples" for usage
-5. **Debug**: Refer to "Error Handling" and "Notes"
-
----
-
-## Tool Discovery
-
-To see all available tools:
-
-```powershell
-cd C:\dev\toolforge
-.\run-tool.ps1 -List
-.\run-tool.ps1 -Inspect toolName
-```
-
----
-
-## Contributing New Tools
-
-When you create a new tool, auto-documentation is generated by `toolforgeDocsSync` daemon.
-
-Manual process:
-
-1. Create tool in correct category directory
-2. Add metadata to manifest.json
-3. Run `toolforgeDocsSync` to generate markdown doc
-4. Verify doc in `C:\dev\toolforge\docs\<category>\<tool-name>.md`
-
-See [TOOL_CREATION_GUIDE](TOOL_CREATION_GUIDE) for details.
-
----
-
-## See Also
-
-- [Home](Home) — Toolforge overview
-- [OPERATOR_GUIDE](OPERATOR_GUIDE) — How to run tools
-- [GOVERNANCE](GOVERNANCE) — Tool standards
-- [TOOL_CREATION_GUIDE](TOOL_CREATION_GUIDE) — Create new tools
-- [manifest.json](https://github.com/sorensencc-dotcom/toolforge/blob/main/manifest.json) — Machine-readable tool registry
-- [INDEX](INDEX) — Tool index (generated)
+- [[CHECKLIST]]: Release verification gate checklist.
+- [[Log]]: Historical audit trail and change record.

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolforge Marketplace Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f5f5f5;
+    color: #2d3142;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .diagram-container {
+    background-color: #f5f5f5;
+    border: 2px solid #2d3142;
+    padding: 36px;
+    width: 1060px;
+    box-shadow: 6px 6px 0px #2d3142;
+  }
+  .header {
+    border-bottom: 2px solid #bf4520;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: #2d3142;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .title-group p {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    color: #4f5d75;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+  .badge {
+    background-color: #2d3142;
+    color: #f5f5f5;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .node-rect {
+    fill: #f5f5f5;
+    stroke: #2d3142;
+    stroke-width: 2;
+  }
+  .node-accent {
+    fill: #f5f5f5;
+    stroke: #bf4520;
+    stroke-width: 2;
+  }
+  .node-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #2d3142;
+    letter-spacing: 0.2px;
+  }
+  .node-title-accent {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #bf4520;
+    letter-spacing: 0.2px;
+  }
+  .node-desc {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    fill: #4f5d75;
+  }
+  .connector-solid {
+    stroke: #2d3142;
+    stroke-width: 2;
+    fill: none;
+  }
+  .connector-accent {
+    stroke: #bf4520;
+    stroke-width: 2;
+    stroke-dasharray: 4 3;
+    fill: none;
+  }
+  .arrowhead {
+    fill: #2d3142;
+  }
+  .arrowhead-accent {
+    fill: #bf4520;
+  }
+  .footer-note {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px dashed #4f5d75;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #4f5d75;
+  }
+  .diagram-caption {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #4f5d75;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="header">
+    <div class="title-group">
+      <h1>Toolforge Marketplace Architecture</h1>
+      <p>Cathryn Lavery Standard • Claude Code Catalog, API, & Discovery Engine</p>
+    </div>
+    <div class="badge">SPECIFICATION v2.6.110</div>
+  </div>
+
+  <svg viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="marketplace-arch-title marketplace-arch-desc">
+    <title id="marketplace-arch-title">Toolforge Marketplace System Architecture</title>
+    <desc id="marketplace-arch-desc">Architectural diagram illustrating the flow between Claude Code clients, marketplace catalog manifests, validation pipelines, static UI generators, the REST API, and PostgreSQL storage.</desc>
+    
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
+      </marker>
+      <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead-accent" />
+      </marker>
+    </defs>
+
+    <!-- Layer 1: Client Ingress (Top) -->
+    <g transform="translate(40, 20)">
+      <rect class="node-rect" width="900" height="70" rx="2"/>
+      <text x="24" y="28" class="node-title">1. Client Ingress & Consumers</text>
+      <text x="24" y="50" class="node-desc">Claude Code CLI (claude plugin install @toolforge) • Web Discovery UI (:5173) • Autonomous Multi-Agent Mesh</text>
+    </g>
+
+    <!-- Vertical Connector from Clients to Validation and UI -->
+    <path d="M 270 90 L 270 140" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 710 90 L 710 140" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 2 Left: Catalog Manifests & Governance -->
+    <g transform="translate(40, 140)">
+      <rect class="node-accent" width="430" height="135" rx="2"/>
+      <text x="20" y="28" class="node-title-accent">2A. Catalog Sources & Strict Gate</text>
+      <text x="20" y="52" class="node-desc">• .claude-plugin/marketplace.json (@toolforge catalog)</text>
+      <text x="20" y="72" class="node-desc">• Local Plugin Manifests: plugins/*/.claude-plugin/plugin.json</text>
+      <text x="20" y="92" class="node-desc">• Pinned External Sources: toolforge-core @ v2.95.7 (SHA)</text>
+      <text x="20" y="114" class="node-desc">• scripts/validate.sh --strict (Blocks traversal & floating refs)</text>
+    </g>
+
+    <!-- Layer 2 Right: Static Build Pipeline -->
+    <g transform="translate(510, 140)">
+      <rect class="node-rect" width="430" height="135" rx="2"/>
+      <text x="20" y="28" class="node-title">2B. Static Catalog Compilation</text>
+      <text x="20" y="52" class="node-desc">• scripts/build-catalog.js (Node.js compiler)</text>
+      <text x="20" y="72" class="node-desc">• Emits to ui/public/api/plugins.json & src/ui/public/api/</text>
+      <text x="20" y="92" class="node-desc">• Enriched metadata: file counts, install commands, authors</text>
+      <text x="20" y="114" class="node-desc">• GitHub Actions CI: .github/workflows/validate-and-build.yml</text>
+    </g>
+
+    <!-- Cross connector between 2A and 2B -->
+    <path d="M 470 207 L 510 207" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Connectors to Layer 3 -->
+    <path d="M 255 275 L 255 330" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 725 275 L 725 330" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 3 Left: REST API Service -->
+    <g transform="translate(40, 330)">
+      <rect class="node-accent" width="430" height="135" rx="2"/>
+      <text x="20" y="28" class="node-title-accent">3A. Runtime API Service</text>
+      <text x="20" y="52" class="node-desc">• Express HTTP API: GET /api/v1/skills (Search, Categories)</text>
+      <text x="20" y="72" class="node-desc">• SemVer Constraint Resolver (^1.2.0, ~0.2.0, prereleases)</text>
+      <text x="20" y="92" class="node-desc">• Ratings & Telemetry: POST /ratings, GET /trending</text>
+      <text x="20" y="114" class="node-desc">• Trending Batch Service: trending-batch.js (Spike Scoring)</text>
+    </g>
+
+    <!-- Layer 3 Right: Web Discovery UI -->
+    <g transform="translate(510, 330)">
+      <rect class="node-rect" width="430" height="135" rx="2"/>
+      <text x="20" y="28" class="node-title">3B. Discovery Web Interface</text>
+      <text x="20" y="52" class="node-desc">• Vite 5 + React 18 Application (src/ui)</text>
+      <text x="20" y="72" class="node-desc">• Warm Parchment (#f5f5f5) & Dark Forge Dual-Theme</text>
+      <text x="20" y="92" class="node-desc">• Fast Catalog Search, Version Inspection, Rating Cards</text>
+      <text x="20" y="114" class="node-desc">• Fallback to static /api/plugins.json when API offline</text>
+    </g>
+
+    <!-- Connectors to Layer 4 -->
+    <path d="M 255 465 L 255 515" class="connector-solid" marker-end="url(#arrow)"/>
+    <path d="M 725 465 L 725 515" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 4: Storage & Telemetry (Bottom) -->
+    <g transform="translate(40, 515)">
+      <rect class="node-rect" width="900" height="80" rx="2"/>
+      <text x="24" y="28" class="node-title">4. Persistence, Resilience, & Observability</text>
+      <text x="24" y="50" class="node-desc">PostgreSQL 15+ (pg.Pool with DB_POOL_MAX=50) • createResilientDb Auto-Failover Adapter • Prometheus Metrics (/metrics)</text>
+    </g>
+
+    <!-- Upward dashed feedback loop from Layer 4 to Layer 3A -->
+    <path d="M 940 555 L 960 555 L 960 400 L 870 400" class="connector-accent" marker-end="url(#arrow-accent)"/>
+  </svg>
+
+  <p class="diagram-caption">Toolforge Marketplace runtime architecture: client ingress reaches both the deterministic static catalog and the live resilient API service backed by PostgreSQL.</p>
+
+  <div class="footer-note">
+    <span>SYSTEM: TOOLFORGE MARKETPLACE PLATFORM</span>
+    <span>PALETTE: CATHRYN LAVERY DEFAULT LIGHT (#F5F5F5 / #2D3142 / #BF4520)</span>
+  </div>
+</div>
+
+</body>
+</html>

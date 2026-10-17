@@ -1,8 +1,12 @@
-### Toolforge Platform
+### Toolforge Marketplace
 - [[Home]]
 - [[Quickstart|QUICKSTART]]
-- [[Tool Index|INDEX]]
+- [[Catalog & Tool Index|INDEX]]
 - [[Governance & Lifecycle|GOVERNANCE]]
+
+#### Architecture & Diagrams
+- [[Documentation Catalog|DOCS_INDEX]]
+- [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
 
 #### Operational Guides
 - [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
@@ -13,14 +17,6 @@
 - [[Ollama Provider Setup|OLLAMA_PROVIDER_SETUP]]
 - [[Rollback Runbook|ROLLBACK_RUNBOOK]]
 
-#### Model Evaluation & WhichLLM
-- [[WhichLLM Model Selection Evaluator|whichllm-model-selection-evaluator]]
-
-#### Skill Library
-- [[Tool Index|INDEX]]
-- [[Tool Creation Guide|TOOL_CREATION_GUIDE]]
-- [[Operator Guide|OPERATOR_GUIDE]]
-
-#### Architecture & Subsystems
-- [[Documentation Catalog|DOCS_INDEX]]
+#### Audits & Logs
+- [[Verification Checklist|CHECKLIST]]
 - [[Audit Log|Log]]

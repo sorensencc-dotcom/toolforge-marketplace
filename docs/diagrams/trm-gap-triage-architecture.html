@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Topic Research Mining: Cognitive Gap Triage & Daily Synthesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f5f5f5;
+    color: #2d3142;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .diagram-container {
+    background-color: #f5f5f5;
+    border: 2px solid #2d3142;
+    padding: 32px;
+    width: 1020px;
+    box-shadow: 6px 6px 0px #2d3142;
+  }
+  .header {
+    border-bottom: 2px solid #bf4520;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #2d3142;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .title-group p {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    color: #4f5d75;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .badge {
+    background-color: #2d3142;
+    color: #f5f5f5;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .node-rect {
+    fill: #f5f5f5;
+    stroke: #2d3142;
+    stroke-width: 2;
+  }
+  .node-accent {
+    fill: #f5f5f5;
+    stroke: #bf4520;
+    stroke-width: 2;
+  }
+  .node-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #2d3142;
+    letter-spacing: 0.2px;
+  }
+  .node-title-accent {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #bf4520;
+    letter-spacing: 0.2px;
+  }
+  .node-desc {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11.5px;
+    fill: #4f5d75;
+  }
+  .connector-solid {
+    stroke: #2d3142;
+    stroke-width: 2;
+    fill: none;
+  }
+  .connector-accent {
+    stroke: #bf4520;
+    stroke-width: 2;
+    stroke-dasharray: 4, 4;
+    fill: none;
+  }
+  .arrowhead {
+    fill: #2d3142;
+  }
+  .arrowhead-accent {
+    fill: #bf4520;
+  }
+  .footer-note {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px dashed #4f5d75;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #4f5d75;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="header">
+    <div class="title-group">
+      <h1>Topic Research Mining: Cognitive Gap Triage & Daily Synthesis</h1>
+      <p>Cathryn Lavery Standard • Closed-Loop Knowledge Retrieval & State Mutation</p>
+    </div>
+    <div class="badge">SPECIFICATION v2.6.110</div>
+  </div>
+
+  <svg viewBox="0 0 950 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="gap-title gap-desc">
+    <title id="gap-title">TRM Cognitive Gap Triage Architecture</title>
+    <desc id="gap-desc">Flow showing gaps registry ingestion, pre-flight context cache sync, cognitive query expansion, SQLite search, RFC synthesis, and feedback loop.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
+      </marker>
+      <marker id="arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead-accent" />
+      </marker>
+    </defs>
+
+    <!-- Stage 1: Gaps Registry & Daily Orchestration Trigger -->
+    <g transform="translate(125, 10)">
+      <rect class="node-rect" width="700" height="70" rx="2"/>
+      <text x="20" y="28" class="node-title">1. Pending Gaps Ingestion & Daily Orchestration</text>
+      <text x="20" y="50" class="node-desc">trm-research-gaps.md (- [ ] [GAP-XX]) • Windows Task Scheduler (Daily 20:30) • Master Pipeline Stage 5</text>
+    </g>
+
+    <path d="M 475 80 L 475 110" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Stage 2: Cache Pre-Sync -->
+    <g transform="translate(125, 110)">
+      <rect class="node-rect" width="700" height="70" rx="2"/>
+      <text x="20" y="28" class="node-title">2. Context Cache Pre-Flight Synchronization</text>
+      <text x="20" y="50" class="node-desc">npm run kb:cache:sync • Hash-based incremental sync • SQLite FTS5 triggers (kb_documents ➔ kb_fts)</text>
+    </g>
+
+    <path d="M 475 180 L 475 210" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Stage 3: Cognitive Query Expander (Core Highlight) -->
+    <g transform="translate(125, 210)">
+      <rect class="node-accent" width="700" height="95" rx="2"/>
+      <text x="20" y="28" class="node-title-accent">3. Cognitive Query Expansion Layer (query-expander.mjs)</text>
+      <text x="20" y="50" class="node-desc">• Provider Dispatch (Ollama Qwen-2.5 ➔ OpenRouter Gemini ➔ Heuristic Fallback)</text>
+      <text x="20" y="68" class="node-desc">• Bounded Concurrency (3x) • Circuit Breaker (2x fails) • SQLite LIMIT 0 Dry-Run Syntax Validation</text>
+      <text x="20" y="86" class="node-desc">• Deterministic Stopword Stripping & Blended OR Wildcard Clauses</text>
+    </g>
+
+    <path d="M 475 305 L 475 335" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Stage 4: SQLite FTS5 Match & Evidence Extraction -->
+    <g transform="translate(125, 335)">
+      <rect class="node-rect" width="700" height="70" rx="2"/>
+      <text x="20" y="28" class="node-title">4. Local SQLite FTS5 Context Search & Snippet Extraction</text>
+      <text x="20" y="50" class="node-desc">.kb_cache/knowledge.db • BM25 Ranking • Highlight Snippet Extraction • Zero Network Latency (&lt;1ms)</text>
+    </g>
+
+    <path d="M 475 405 L 475 435" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Stage 5: RFC Decision Note Synthesis -->
+    <g transform="translate(125, 435)">
+      <rect class="node-rect" width="700" height="70" rx="2"/>
+      <text x="20" y="28" class="node-title">5. RFC Decision Document Synthesis</text>
+      <text x="20" y="50" class="node-desc">Materializes wiki/research/rfc-gap-*.md with Problem Context, Evidence Citations, & Protocol Decisions</text>
+    </g>
+
+    <path d="M 475 505 L 475 535" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Stage 6: State Mutation & Feedback Loop -->
+    <g transform="translate(125, 535)">
+      <rect class="node-accent" width="700" height="75" rx="2"/>
+      <text x="20" y="28" class="node-title-accent">6. Closed-Loop State Mutation & Downstream Indexing</text>
+      <text x="20" y="50" class="node-desc">• Mutates trm-research-gaps.md: - [ ] ➔ - [/] [GAP-XX] Title (Drafted: [RFC](wiki/research/...))</text>
+      <text x="20" y="68" class="node-desc">• Re-indexes new RFCs via kb:cache:sync • MCP query_context_cache / fetch_topic_note immediately active</text>
+    </g>
+
+    <!-- Feedback Loop Arrow back to Gaps File / Cache -->
+    <path d="M 825 572 L 870 572 L 870 45 L 825 45" class="connector-accent" marker-end="url(#arrow-accent)"/>
+
+  </svg>
+
+  <div class="footer-note">
+    <span>SYSTEM: TRM AUTOMATED GAP TRIAGE PIPELINE</span>
+    <span>PALETTE: CATHRYN LAVERY DEFAULT LIGHT (#F5F5F5 / #2D3142 / #BF4520)</span>
+  </div>
+</div>
+
+</body>
+</html>

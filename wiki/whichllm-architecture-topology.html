@@ -5,13 +5,13 @@
 <title>TorqueQuery & WhichLLM Architecture Topology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Geist+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background-color: #f2ece2;
-    color: #2c2420;
-    font-family: 'Barlow Condensed', sans-serif;
+    background-color: #f5f5f5;
+    color: #2d3142;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
     padding: 40px;
     display: flex;
     justify-content: center;
@@ -19,14 +19,14 @@
     min-height: 100vh;
   }
   .diagram-container {
-    background-color: #f2ece2;
-    border: 2px solid #5c5349;
+    background-color: #f5f5f5;
+    border: 2px solid #2d3142;
     padding: 36px;
     width: 1000px;
-    box-shadow: 6px 6px 0px #5c5349;
+    box-shadow: 6px 6px 0px #2d3142;
   }
   .header {
-    border-bottom: 2px solid #c4501a;
+    border-bottom: 2px solid #bf4520;
     padding-bottom: 16px;
     margin-bottom: 28px;
     display: flex;
@@ -34,23 +34,24 @@
     align-items: flex-end;
   }
   .title-group h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    font-weight: 700;
-    color: #2c2420;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: #2d3142;
     letter-spacing: -0.5px;
+    line-height: 1.1;
   }
   .title-group p {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 16px;
-    color: #5c5349;
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    color: #4f5d75;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top: 4px;
+    margin-top: 6px;
   }
   .badge {
-    background-color: #2c2420;
-    color: #f2ece2;
+    background-color: #2d3142;
+    color: #f5f5f5;
     font-family: 'Geist Mono', monospace;
     font-size: 12px;
     padding: 6px 12px;
@@ -62,62 +63,60 @@
     height: auto;
   }
   .node-rect {
-    fill: #f2ece2;
-    stroke: #2c2420;
+    fill: #f5f5f5;
+    stroke: #2d3142;
     stroke-width: 2;
   }
   .node-accent {
-    fill: #f2ece2;
-    stroke: #c4501a;
+    fill: #f5f5f5;
+    stroke: #bf4520;
     stroke-width: 2;
   }
   .node-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-    fill: #2c2420;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #2d3142;
+    letter-spacing: 0.2px;
   }
   .node-title-accent {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 17px;
-    fill: #c4501a;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #bf4520;
+    letter-spacing: 0.2px;
   }
   .node-desc {
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
-    fill: #5c5349;
+    fill: #4f5d75;
   }
   .connector {
-    stroke: #5c5349;
+    stroke: #4f5d75;
     stroke-width: 2;
     fill: none;
     stroke-dasharray: 4 4;
   }
   .connector-solid {
-    stroke: #2c2420;
+    stroke: #2d3142;
     stroke-width: 2;
     fill: none;
   }
   .arrowhead {
-    fill: #2c2420;
+    fill: #2d3142;
   }
   .arrowhead-accent {
-    fill: #c4501a;
+    fill: #bf4520;
   }
   .footer-note {
     margin-top: 24px;
     padding-top: 12px;
-    border-top: 1px dashed #5c5349;
+    border-top: 1px dashed #4f5d75;
     display: flex;
     justify-content: space-between;
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
-    color: #5c5349;
+    color: #4f5d75;
   }
 </style>
 </head>
@@ -127,12 +126,14 @@
   <div class="header">
     <div class="title-group">
       <h1>TorqueQuery & WhichLLM Architecture Topology</h1>
-      <p>Cathryn Lavery Diagram Standard • Specification v2.4.0</p>
+      <p>Cathryn Lavery Standard • Model Selection & Routing Specification</p>
     </div>
-    <div class="badge">AMENDMENT §2/S3-A1</div>
+    <div class="badge">SPECIFICATION v2.6.110</div>
   </div>
 
-  <svg viewBox="0 0 920 540" xmlns="http://www.w3.org/2000/svg">
+  <svg viewBox="0 0 920 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="whichllm-title whichllm-desc">
+    <title id="whichllm-title">TorqueQuery and WhichLLM Routing Topology</title>
+    <desc id="whichllm-desc">Architecture topology showing model routing, WhichLLM adapter evaluation, OpenRouter integration, and local frontier model execution.</desc>
     <defs>
       <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
         <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
@@ -191,7 +192,7 @@
 
   <div class="footer-note">
     <span>LINEAGE: SHA-256 WIRE-EXACT PAYLOAD CHAIN</span>
-    <span>PALETTE: CATHRYN LAVERY WARM PAPER (#F2ECE2)</span>
+    <span>PALETTE: CATHRYN LAVERY DEFAULT LIGHT (#F5F5F5 / #2D3142 / #BF4520)</span>
   </div>
 </div>
 

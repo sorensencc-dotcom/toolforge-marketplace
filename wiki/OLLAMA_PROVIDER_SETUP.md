@@ -10,7 +10,7 @@ brand: product-toolforge
 
 ## Provider topology
 
-![TorqueQuery and WhichLLM provider topology](wiki/research/whichllm-architecture-topology.png)
+![TorqueQuery and WhichLLM provider topology](whichllm-architecture-topology.png)
 
 This topology shows the governed router, model-selection adapter, and local provider branch that includes Ollama.
 

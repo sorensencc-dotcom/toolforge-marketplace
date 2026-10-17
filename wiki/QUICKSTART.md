@@ -1,247 +1,128 @@
 <!--
-title: "🚀 OllamaProvider — Ready to Use"
+title: "Toolforge Marketplace Quickstart"
 status: active
 owner: chris
-last-reviewed: 2026-09-27
+last-reviewed: 2026-10-17
 brand: product-toolforge
 -->
 
-# 🚀 OllamaProvider — Ready to Use
+# Toolforge Marketplace Quickstart
 
-## What's New
+Guide for installing verified plugins in Claude Code and setting up the local development stack.
 
-A complete, production-ready **OllamaProvider** implementation with shared configuration across local, Docker Compose, and Kubernetes environments.
+---
 
-- ✅ Single provider code path used everywhere
-- ✅ Environment-driven endpoints (no hardcoded URLs)
-- ✅ Comprehensive test suite (8 test categories)
-- ✅ Docker Compose for local development
-- ✅ Kubernetes manifests for production
-- ✅ ConfigMap + Secret for secure credential management
-- ✅ No secrets committed to VCS
+## 1. Claude Code plugin installation
 
-## 📂 Quick File Reference
+To register the Toolforge Marketplace catalog in your local Claude Code CLI:
 
-| File | Purpose | Should Commit |
-|------|---------|:---:|
-| `src/providers/ollama-provider.ts` | Core provider implementation | ✅ |
-| `src/providers/index.ts` | DI factory (getProvider) | ✅ |
-| `src/api/providers-api.ts` | Express routes | ✅ |
-| `modules/healing/adversarial-auditor.ts` | Updated with provider import | ✅ |
-| `.env.example` | Environment template (no secrets) | ✅ |
-| `docker-compose.yml` | Local dev stack | ✅ |
-| `k8s-manifests.yaml` | Production deployment | ✅ |
-| `OLLAMA_PROVIDER_SETUP.md` | Quick start guide | ✅ |
-| `OLLAMA_DEPLOYMENT_GUIDE.md` | Detailed deployment | ✅ |
-| `IMPLEMENTATION_SUMMARY.md` | What was delivered | ✅ |
-| `CHECKLIST.md` | Verification checklist | ✅ |
-| `.env` | Local secrets (DO NOT commit) | ❌ |
-
-## ⚡ Get Started in 5 Minutes
-
-### Step 1: Copy environment template
 ```bash
-cp .env.example .env
+claude plugin marketplace add sorensencc-dotcom/toolforge-marketplace
 ```
 
-### Step 2: Start Docker Compose
+To install verified plugins directly from the catalog:
+
 ```bash
-docker compose up -d
+# Worktree audit and safe pruning
+claude plugin install worktree-cleanup@toolforge
+
+# Morning ingestion pass and inbox signal digest
+claude plugin install morning-ingestion-pass@toolforge
+
+# Operational ideas harvest and triage cards
+claude plugin install operational-ideas-harvest@toolforge
+
+# Core Toolforge execution utilities (pinned to release v2.95.7)
+claude plugin install toolforge-core@toolforge
 ```
 
-### Step 3: Pull a model
+To verify installed plugins:
+
 ```bash
-docker compose exec ollama ollama pull llama2
+claude plugin list
 ```
 
-### Step 4: Use the provider in your code
-```typescript
-import { getProvider } from './src/providers/index.js';
+---
 
-const provider = getProvider();
-const response = await provider.generate('llama2', 'What is Docker?');
-console.log(response);
-```
+## 2. Local development stack setup
 
-### Step 5: Run tests
+### Prerequisites
+
+- Node.js 20+
+- PostgreSQL 15+
+- `jq` 1.6+
+
+### Step-by-step setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sorensencc-dotcom/toolforge-marketplace.git
+   cd toolforge-marketplace
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure environment variables:
+   ```bash
+   export DATABASE_URL="postgresql://localhost:5432/marketplace"
+   export DB_POOL_MAX=50
+   export PORT=3000
+   ```
+
+4. Run database migrations:
+   ```bash
+   npm run migrate
+   ```
+
+5. Launch the runtime API service:
+   ```bash
+   npm run api:dev
+   ```
+
+6. Launch the Vite web UI in a separate terminal:
+   ```bash
+   npm run ui:dev
+   ```
+
+Open `http://localhost:5173` to explore the marketplace UI.
+
+---
+
+## 3. Validation and static compilation workflow
+
+To validate catalog schemas, prevent directory traversal, and enforce strict release pinning:
+
 ```bash
-npm test -- src/providers/__tests__/ollama-provider.test.ts
+npm run validate:marketplace
 ```
 
-## 🔑 Key Features
+To re-compile the static UI catalog artifact after modifying `.claude-plugin/marketplace.json`:
 
-### 1. Environment-Driven Configuration
-- Local: `http://host.docker.internal:11434/v1` (Docker Desktop)
-- Compose: `http://ollama:11434/v1` (service name)
-- K8s: `http://ollama-service.toolforge.svc.cluster.local:11434/v1` (DNS FQDN)
-
-All from single `OLLAMA_BASE_URL` environment variable.
-
-### 2. Single Shared Provider
-One `OllamaProvider` implementation used everywhere:
-```typescript
-import { getProvider } from './src/providers/index.js';
-const provider = getProvider(); // Same code, different env
-```
-
-### 3. No Hardcoded Endpoints
-✅ All endpoints from environment
-✅ Defaults only in local development
-✅ ConfigMap/Secret for production
-
-### 4. Complete Test Coverage
 ```bash
-npm test -- src/providers/__tests__/ollama-provider.test.ts
-```
-- ✅ Success paths
-- ✅ Timeouts
-- ✅ HTTP errors (non-2xx)
-- ✅ Malformed responses
-- ✅ Connection failures
-- ✅ Parameter validation
-
-### 5. API Integration Ready
-```typescript
-// In your Express app
-import { setupProviderRoutes } from './src/api/providers-api.js';
-setupProviderRoutes(app);
-
-// Routes added:
-// POST /api/generate — generate text
-// POST /api/audit — run adversarial audit
-// GET /api/models — list available models
-// GET /health/provider — health check
+npm run build:catalog
 ```
 
-## 📋 Deployment Paths
+---
 
-### Local Development
+## 4. Test execution
+
+To execute the core test suite (unit, SemVer, resilient DB, and analytics):
+
 ```bash
-docker compose up -d
-docker compose exec ollama ollama pull llama2
-npm run api:dev
-```
-
-### Docker Compose (Testing)
-```bash
-docker compose up
-# Services auto-wire to each other
-```
-
-### Kubernetes (Production)
-```bash
-kubectl apply -f k8s-manifests.yaml
-kubectl wait --for=condition=Ready pod -l app=ollama -n toolforge
-kubectl exec -n toolforge ollama-0 -- ollama pull llama2
-```
-
-## 📚 Documentation
-
-| File | Content |
-|------|---------|
-| `OLLAMA_PROVIDER_SETUP.md` | Quick start, integration patterns, troubleshooting |
-| `OLLAMA_DEPLOYMENT_GUIDE.md` | Architecture, security, performance, detailed setup |
-| `IMPLEMENTATION_SUMMARY.md` | What was built, file structure, next steps |
-| `CHECKLIST.md` | Verification checklist, requirements met |
-
-## 🎯 Common Tasks
-
-### Using the Provider in Code
-```typescript
-import { getProvider } from './src/providers/index.js';
-import { runAdversarialCrossAudit } from './modules/healing/adversarial-auditor.js';
-
-// Direct usage
-const provider = getProvider();
-const text = await provider.generate('llama2', 'prompt');
-
-// In modules (already integrated)
-const verdict = await runAdversarialCrossAudit(packet, provider);
-```
-
-### Adding to Express
-```typescript
-import { setupProviderRoutes } from './src/api/providers-api.js';
-
-const app = express();
-setupProviderRoutes(app);
-
-app.listen(3000);
-```
-
-### Testing
-```bash
-# Run provider tests
-npm test -- src/providers/__tests__/ollama-provider.test.ts
-
-# With real Ollama (after docker compose up)
 npm test
-
-# Watch mode
-npm run test:watch
 ```
 
-### Troubleshooting
+To run web UI component tests:
+
 ```bash
-# Check Ollama status
-docker compose ps ollama
-curl http://localhost:11434/api/tags
-
-# Check logs
-docker compose logs ollama
-
-# Restart services
-docker compose down
-docker compose up -d
+npm run ui:test
 ```
 
-## 🔐 Security
+To execute a full production build:
 
-- ✅ No secrets in code
-- ✅ `.env.example` committed (no real values)
-- ✅ `.env` in `.gitignore` (local secrets only)
-- ✅ Kubernetes Secret for credentials
-- ✅ RBAC: ServiceAccount with minimal permissions
-- ✅ Non-root containers
-- ✅ Read-only filesystems where possible
-
-## 📊 What's Included
-
-### Provider Code (src/providers/)
-- `ollama-provider.ts` — OllamaProvider class (3.4 KB)
-- `index.ts` — DI factory (841 B)
-- `usage-examples.ts` — Integration patterns (2.6 KB)
-- `__tests__/ollama-provider.test.ts` — Tests (6.9 KB)
-
-### Integration (src/api/)
-- `providers-api.ts` — Express routes & middleware (5.6 KB)
-
-### Deployment Config
-- `docker-compose.yml` — Local dev stack (1.5 KB)
-- `k8s-manifests.yaml` — Production deployment (8.6 KB)
-- `.env.example` — Environment template (1.1 KB)
-
-### Documentation
-- `OLLAMA_PROVIDER_SETUP.md` (6.8 KB)
-- `OLLAMA_DEPLOYMENT_GUIDE.md` (9.8 KB)
-- `IMPLEMENTATION_SUMMARY.md` (8.2 KB)
-- `CHECKLIST.md` (7.2 KB)
-
-**Total: ~60 KB of production-ready code + docs**
-
-## ✅ Ready to Use
-
-All components are:
-- ✅ Implemented and tested
-- ✅ Documented with examples
-- ✅ Production-ready for Kubernetes
-- ✅ Development-ready for local testing
-- ✅ Integrated with existing modules
-
-## 🚀 Next Step
-
-Start with **5-minute quickstart** above, then read **`OLLAMA_PROVIDER_SETUP.md`** for detailed integration patterns.
-
-Need production deployment? Check **`OLLAMA_DEPLOYMENT_GUIDE.md`** and **`k8s-manifests.yaml`**.
-
-**Everything is ready. Start using it now!**
+```bash
+npm run ui:build
+```

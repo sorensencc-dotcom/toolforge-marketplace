@@ -14,7 +14,7 @@ This guide covers the `OllamaProvider` implementation, environment configuration
 
 ## Provider topology
 
-![TorqueQuery and WhichLLM provider topology](wiki/research/whichllm-architecture-topology.png)
+![TorqueQuery and WhichLLM provider topology](whichllm-architecture-topology.png)
 
 This topology shows the governed model-selection path that routes eligible work to the Ollama local-provider branch before deployment-specific configuration applies.
 

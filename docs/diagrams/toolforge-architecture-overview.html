@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Toolforge Platform Architecture Overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: #f5f5f5;
+    color: #2d3142;
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  .diagram-container {
+    background-color: #f5f5f5;
+    border: 2px solid #2d3142;
+    padding: 36px;
+    width: 960px;
+    box-shadow: 6px 6px 0px #2d3142;
+  }
+  .header {
+    border-bottom: 2px solid #bf4520;
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .title-group h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    color: #2d3142;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+  }
+  .title-group p {
+    font-family: 'Geist', sans-serif;
+    font-size: 14px;
+    color: #4f5d75;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+  .badge {
+    background-color: #2d3142;
+    color: #f5f5f5;
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+  }
+  .node-rect {
+    fill: #f5f5f5;
+    stroke: #2d3142;
+    stroke-width: 2;
+  }
+  .node-accent {
+    fill: #f5f5f5;
+    stroke: #bf4520;
+    stroke-width: 2;
+  }
+  .node-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #2d3142;
+    letter-spacing: 0.2px;
+  }
+  .node-title-accent {
+    font-family: 'Geist', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    fill: #bf4520;
+    letter-spacing: 0.2px;
+  }
+  .node-desc {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    fill: #4f5d75;
+  }
+  .connector-solid {
+    stroke: #2d3142;
+    stroke-width: 2;
+    fill: none;
+  }
+  .arrowhead {
+    fill: #2d3142;
+  }
+  .footer-note {
+    margin-top: 24px;
+    padding-top: 12px;
+    border-top: 1px dashed #4f5d75;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #4f5d75;
+  }
+  .diagram-caption {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #4f5d75;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="diagram-container">
+  <div class="header">
+    <div class="title-group">
+      <h1>Toolforge Platform Architecture Overview</h1>
+      <p>Cathryn Lavery Standard • Governed MCP-Grade Execution Runtime</p>
+    </div>
+    <div class="badge">SPECIFICATION v2.6.110</div>
+  </div>
+
+  <svg viewBox="0 0 880 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="overview-title overview-desc">
+    <title id="overview-title">Toolforge Platform Architecture Pipeline</title>
+    <desc id="overview-desc">Flow diagram showing client ingress, gateway security layer, sandboxed execution runtime, tool registry, and storage telemetry.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 1 L 10 5 L 0 9 z" class="arrowhead" />
+      </marker>
+    </defs>
+
+    <!-- Layer 1: Clients -->
+    <g transform="translate(140, 10)">
+      <rect class="node-rect" width="600" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">1. Clients & Ingress</text>
+      <text x="20" y="54" class="node-desc">AI Agents • IDE Integrations • REST API • MCP stdio & HTTP</text>
+    </g>
+
+    <path d="M 440 85 L 440 120" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 2: Gateway Layer -->
+    <g transform="translate(140, 120)">
+      <rect class="node-rect" width="600" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">2. Gateway Layer</text>
+      <text x="20" y="54" class="node-desc">Authentication (API Keys, JWT) • Capability RBAC • Rate Limiter</text>
+    </g>
+
+    <path d="M 440 195 L 440 230" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 3: Execution Runtime (Highlighted Accent) -->
+    <g transform="translate(140, 230)">
+      <rect class="node-accent" width="600" height="90" rx="2"/>
+      <text x="20" y="30" class="node-title-accent">3. Execution Runtime (Core Engine)</text>
+      <text x="20" y="54" class="node-desc">• Input Validation (JSON Schema) • Sandbox (Subprocess Isolation)</text>
+      <text x="20" y="72" class="node-desc">• Deterministic Retry & Timeout Manager • Structured ToolResult Emitter</text>
+    </g>
+
+    <path d="M 440 320 L 440 355" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 4: Tool Registry -->
+    <g transform="translate(140, 355)">
+      <rect class="node-rect" width="600" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">4. Tool Registry</text>
+      <text x="20" y="54" class="node-desc">Semantic Registry • Categories • Semver Versioning • Full-Text Search</text>
+    </g>
+
+    <path d="M 440 430 L 440 465" class="connector-solid" marker-end="url(#arrow)"/>
+
+    <!-- Layer 5: Infrastructure -->
+    <g transform="translate(140, 465)">
+      <rect class="node-rect" width="600" height="75" rx="2"/>
+      <text x="20" y="30" class="node-title">5. Infrastructure & Telemetry</text>
+      <text x="20" y="54" class="node-desc">PostgreSQL (Audit Logs) • Redis (Rate Limits & Caching) • Prometheus (/metrics)</text>
+    </g>
+
+  </svg>
+
+  <p class="diagram-caption">Toolforge execution flow: client ingress passes through gateway and execution controls before registry and infrastructure services.</p>
+
+  <div class="footer-note">
+    <span>SYSTEM: TOOLFORGE GOVERNED EXECUTION RUNTIME</span>
+    <span>PALETTE: CATHRYN LAVERY DEFAULT LIGHT (#F5F5F5 / #2D3142 / #BF4520)</span>
+  </div>
+</div>
+
+</body>
+</html>
