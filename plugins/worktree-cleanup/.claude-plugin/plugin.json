@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "Audit, safely triage, and prune git worktrees across repositories.",
   "author": {
-    "name": "Chris Sorensen"
+    "name": "Cast Iron Productions LLC"
   }
 }

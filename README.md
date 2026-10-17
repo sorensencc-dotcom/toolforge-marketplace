@@ -104,8 +104,8 @@ The root catalog registers local directory sources and pinned external GitHub re
   "name": "toolforge",
   "description": "Toolforge Marketplace: Deterministic skill, hook, and agent catalog for Claude Code and multi-agent workflows.",
   "owner": {
-    "name": "Chris Sorensen",
-    "email": "sorensencc@gmail.com"
+    "name": "Cast Iron Productions LLC",
+    "email": "info@castironcharlie.com"
   },
   "plugins": [
     {
@@ -147,7 +147,7 @@ Every relative plugin path must provide a local manifest matching its declared n
   "version": "1.0.0",
   "description": "Audit, safely triage, and prune git worktrees across repositories.",
   "author": {
-    "name": "Chris Sorensen"
+    "name": "Cast Iron Productions LLC"
   }
 }
 ```
