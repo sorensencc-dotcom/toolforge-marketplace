@@ -1,0 +1,26 @@
+.claude-plugin/marketplace.json
+  h_5c172e9b435f5a 5-6
+README.md
+  h_5c172e9b435f5a 107-108,150
+plugins/morning-ingestion-pass/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 6
+plugins/operational-ideas-harvest/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 6
+plugins/worktree-cleanup/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 6
+src/ui/public/api/plugins.json
+  h_5c172e9b435f5a 5-6,8,16,28,40,52-53
+ui/public/api/plugins.json
+  h_5c172e9b435f5a 5-6,8,16,28,40,52-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0ee08daa593ae0258faa2cae514eb74763565a43",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
