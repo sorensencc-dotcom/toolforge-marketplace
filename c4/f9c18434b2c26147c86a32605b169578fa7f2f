@@ -1,0 +1,32 @@
+.claude-plugin/marketplace.json
+  h_5c172e9b435f5a 1-34
+.github/workflows/validate-and-build.yml
+  h_5c172e9b435f5a 1-43
+package.json
+  h_5c172e9b435f5a 17-18,20,24
+plugins/morning-ingestion-pass/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 1-8
+plugins/operational-ideas-harvest/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 1-8
+plugins/worktree-cleanup/.claude-plugin/plugin.json
+  h_5c172e9b435f5a 1-8
+scripts/build-catalog.js
+  h_5c172e9b435f5a 1-77
+scripts/validate.sh
+  h_5c172e9b435f5a 1-126
+src/ui/public/api/plugins.json
+  h_5c172e9b435f5a 1-65
+ui/public/api/plugins.json
+  h_5c172e9b435f5a 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c4f9c18434b2c26147c86a32605b169578fa7f2f",
+  "prompts": {},
+  "humans": {
+    "h_5c172e9b435f5a": {
+      "author": "Chris Sorensen <sorensencc@gmail.com>"
+    }
+  }
+}
