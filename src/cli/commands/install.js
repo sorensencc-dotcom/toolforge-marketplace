@@ -106,7 +106,7 @@ export default {
             skill: skill.name,
             skillId: skill.id,
             version: targetVersion.version_tag,
-            source: { repo: source.repo, ref: source.ref, sha: source.sha },
+            source: { repo: source.repo, ref: source.ref, sha: source.sha, path: source.path },
             installedAt: new Date().toISOString(),
           },
           null,
@@ -114,7 +114,7 @@ export default {
         )
       );
 
-      console.log(`✓ Installed ${skill.name} v${targetVersion.version_tag} (${source.repo}@${source.sha.slice(0, 12)})`);
+      console.log(`✓ Installed ${skill.name} v${targetVersion.version_tag} (${source.repo}${source.path ? `/${source.path}` : ''}@${source.sha.slice(0, 12)})`);
       console.log(`  Location: ${target}`);
     } catch (error) {
       console.error(`✗ Installation failed: ${error.message}`);
