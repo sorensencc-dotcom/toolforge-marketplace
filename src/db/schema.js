@@ -8,7 +8,7 @@ export const schema = {
     indexes: ['category', 'owner', 'status', 'created_at', 'name_trgm'],
   },
   versions: {
-    columns: ['id', 'skill_id', 'version_tag', 'release_date', 'changelog', 'checksum', 'status', 'created_at', 'source_repo', 'source_ref', 'source_sha'],
+    columns: ['id', 'skill_id', 'version_tag', 'release_date', 'changelog', 'checksum', 'status', 'created_at', 'source_repo', 'source_ref', 'source_sha', 'source_path'],
     table: 'versions',
     pk: 'id',
     fk: { skill_id: 'skills(id)' },
@@ -112,15 +112,15 @@ export async function getVersion(db, skillId, versionTag) {
 // Helper: Insert version
 export async function insertVersion(
   db,
-  { skill_id, version_tag, release_date, changelog, checksum, source_repo = null, source_ref = null, source_sha = null }
+  { skill_id, version_tag, release_date, changelog, checksum, source_repo = null, source_ref = null, source_sha = null, source_path = null }
 ) {
   const query = `
-    INSERT INTO versions (skill_id, version_tag, release_date, changelog, checksum, source_repo, source_ref, source_sha)
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    INSERT INTO versions (skill_id, version_tag, release_date, changelog, checksum, source_repo, source_ref, source_sha, source_path)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
     RETURNING *
   `;
   const result = await db.query(query, [
-    skill_id, version_tag, release_date, changelog, checksum, source_repo, source_ref, source_sha,
+    skill_id, version_tag, release_date, changelog, checksum, source_repo, source_ref, source_sha, source_path,
   ]);
   return result.rows[0];
 }

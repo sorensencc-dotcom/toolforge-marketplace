@@ -79,7 +79,7 @@ skill-name
 
 Install a skill by checking out the exact commit its version is pinned to.
 
-Each version in the registry records `source_repo` (GitHub `owner/name`) and `source_sha` (a full 40-character commit SHA). The CLI fetches that commit into `<destination>/<skill-name>`, confirms `HEAD` equals the pinned SHA, and removes the `.git` directory. A version with no recorded source is refused with a pointer to `claude plugin install <skill>@toolforge`.
+Each version in the registry records `source_repo` (GitHub `owner/name`) and `source_sha` (a full 40-character commit SHA), and optionally `source_path`, the subdirectory that holds the plugin. The CLI fetches that commit, confirms `HEAD` equals the pinned SHA, and installs it into `<destination>/<skill-name>`: the whole repository, or only `source_path` when one is set. The `.git` directory is never installed. A symbolic link that resolves outside the install directory, or to nothing, fails the install. A version with no recorded source is refused with a pointer to `claude plugin install <skill>@toolforge`.
 
 **Options:**
 - `--version, -v` — Specific version (default: latest)
@@ -109,7 +109,7 @@ Writes `.toolforge-install.json` into the install directory:
   "skill": "my-skill",
   "skillId": "uuid",
   "version": "1.5.0",
-  "source": { "repo": "acme/my-skill", "ref": "v1.5.0", "sha": "3f9c2a7d41be..." },
+  "source": { "repo": "acme/my-skill", "ref": "v1.5.0", "sha": "3f9c2a7d41be...", "path": null },
   "installedAt": "2026-07-14T..."
 }
 ```

@@ -7,7 +7,7 @@ PostgreSQL 15+ schema and migration infrastructure for the Toolforge Marketplace
 ### Tables
 
 - **skills** — Core skill metadata (name, category, description, owner, manifest)
-- **versions** — Skill version history (tag, release date, changelog, checksum, and the pinned source: `source_repo`, `source_ref`, `source_sha` from migration 0003)
+- **versions** — Skill version history (tag, release date, changelog, checksum, and the pinned source: `source_repo`, `source_ref`, `source_sha` from migration 0003, and `source_path` from migration 0004)
 - **ratings** — User reviews and scores (1-5 stars, text review, unique per user/skill)
 - **trending_metrics** — Pre-calculated trend data (installs 7d/30d, rating avg, count)
 - **installation_log** — Analytics (skill installs, version, user, timestamp, status)
