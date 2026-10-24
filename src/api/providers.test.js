@@ -97,11 +97,9 @@ test('Providers API Router' + ' - Security & Conformance', async (t) => {
     });
   });
 
-  await t.test('/api/audit fails closed on malformed model output', async () => {
-    const malformedProvider = {
-      generate: async () => 'Sorry, I as an AI cannot fulfill this',
-    };
-    await withServer(mockDb, { provider: malformedProvider }, async (base) => {
+  await t.test('/api/audit returns 501 while the adversarial auditor is stubbed', async () => {
+    const stubProvider = { generate: async () => 'unused' };
+    await withServer(mockDb, { provider: stubProvider }, async (base) => {
       const res = await fetch(`${base}/api/audit`, {
         method: 'POST',
         headers: authHeaders,
@@ -114,10 +112,9 @@ test('Providers API Router' + ' - Security & Conformance', async (t) => {
           historyLog: ['init'],
         }),
       });
-      assert.strictEqual(res.status, 200);
+      assert.strictEqual(res.status, 501);
       const body = await res.json();
-      assert.strictEqual(body.verdict.consensus, false);
-      assert.ok(body.verdict.blockerAnalysis.includes('malformed'));
+      assert.strictEqual(body.error, 'Audit not implemented');
     });
   });
 
