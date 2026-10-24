@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Make Validation Script Executable
         run: chmod +x scripts/validate.sh
@@ -27,17 +27,19 @@ jobs:
       - name: Run Marketplace Validation
         run: ./scripts/validate.sh --strict
 
-      - name: Install UI Dependencies
-        working-directory: ./ui
-        if: hashFiles('./ui/package.json') != ''
-        run: npm ci
+      # No package-lock.json is committed, so `npm ci` is unavailable.
+      - name: Install Dependencies
+        run: npm install --no-audit --no-fund --ignore-scripts
 
-      - name: Generate Static UI Catalog Artifact
-        working-directory: ./ui
-        if: hashFiles('./ui/package.json') != ''
-        run: node ../scripts/build-catalog.js
+      # The CLI exec test resolves the PDF plugin from ~/.toolforge/plugins.json.
+      - name: Register PDF Plugin
+        run: node src/cli/index.js plugins add toolforge-pdf
 
-      - name: Build Static UI (if Next.js/Vite project)
-        working-directory: ./ui
-        if: hashFiles('./ui/package.json') != ''
-        run: npm run build
+      - name: Run Unit and API Tests
+        run: npm test
+
+      - name: Run UI Tests
+        run: npm run ui:test
+
+      - name: Build Static UI
+        run: npm run ui:build
