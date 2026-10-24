@@ -1,4 +1,22 @@
 {
+  "skills": [
+    {
+      "name": "worktree-cleanup",
+      "category": "utility"
+    },
+    {
+      "name": "morning-ingestion-pass",
+      "category": "pipeline"
+    },
+    {
+      "name": "operational-ideas-harvest",
+      "category": "pipeline"
+    },
+    {
+      "name": "toolforge-core",
+      "category": "utility"
+    }
+  ],
   "versions": [
     {
       "skill": "worktree-cleanup",

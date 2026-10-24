@@ -69,7 +69,7 @@ export async function publishVersion({ db, skill, tag, repo, ref, path = null, c
   }
 
   const skillRow = await getSkillByName(db, skill);
-  if (!skillRow) throw new Error(`skill ${JSON.stringify(skill)} is not in the registry; publish creates versions, not skills`);
+  if (!skillRow) throw new Error(`skill ${JSON.stringify(skill)} is not in the registry; publish creates versions, not skills (for the catalog's plugins, run npm run skill:create first)`);
   record.skill_id = skillRow.id;
 
   const existing = await getVersion(db, skillRow.id, tag);
