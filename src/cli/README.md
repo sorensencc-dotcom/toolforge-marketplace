@@ -77,12 +77,17 @@ skill-name
 
 ### toolforge install `<skill-name>`
 
-Install a skill.
+Install a skill by checking out the exact commit its version is pinned to.
+
+Each version in the registry records `source_repo` (GitHub `owner/name`) and `source_sha` (a full 40-character commit SHA). The CLI fetches that commit into `<destination>/<skill-name>`, confirms `HEAD` equals the pinned SHA, and removes the `.git` directory. A version with no recorded source is refused with a pointer to `claude plugin install <skill>@toolforge`.
 
 **Options:**
 - `--version, -v` — Specific version (default: latest)
 - `--destination, -d` — Where to install (default: ./skills)
 - `--api-url` — API endpoint
+
+**Environment:**
+- `TOOLFORGE_GIT_BASE_URL` — Git host to fetch from (default: `https://github.com`). Set it for a mirror or a local test fixture.
 
 **Examples:**
 ```bash
@@ -94,21 +99,18 @@ toolforge install my-skill -v 1.0.0 -d /opt/skills
 
 **Output:**
 ```
-Installing skill: my-skill
-✓ Successfully installed my-skill v1.5.0
-  Location: ./skills
-  Entrypoint: src/index.js
+✓ Installed my-skill v1.5.0 (acme/my-skill@3f9c2a7d41be)
+  Location: /abs/path/skills/my-skill
 ```
 
-Creates `.toolforge-install.json` with metadata:
+Writes `.toolforge-install.json` into the install directory:
 ```json
 {
   "skill": "my-skill",
   "skillId": "uuid",
   "version": "1.5.0",
-  "installedAt": "2026-07-14T...",
-  "entrypoint": "src/index.js",
-  "runtime": "node"
+  "source": { "repo": "acme/my-skill", "ref": "v1.5.0", "sha": "3f9c2a7d41be..." },
+  "installedAt": "2026-07-14T..."
 }
 ```
 

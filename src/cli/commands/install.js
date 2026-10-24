@@ -1,4 +1,6 @@
 import { resolve } from 'node:path';
+import { writeFileSync } from 'node:fs';
+import { assertSafeName, fetchSource, readVersionSource } from '../lib/git-source.js';
 
 export default {
   command: 'install <skill-name>',
@@ -87,11 +89,33 @@ export default {
         console.log(`Installing ${skill.name} v${targetVersion.version_tag}`);
       }
 
-      // The registry stores a version tag and checksum but no downloadable package,
-      // so there is nothing to fetch. Fail instead of reporting a fake install.
-      console.error(`✗ Cannot install ${skill.name} v${targetVersion.version_tag}: package download is not implemented.`);
-      console.error(`  Install it through Claude Code instead: claude plugin install ${skill.name}@toolforge`);
-      process.exit(1);
+      const source = readVersionSource(targetVersion);
+      if (!source) {
+        console.error(`✗ Cannot install ${skill.name} v${targetVersion.version_tag}: the registry records no source for this version.`);
+        console.error(`  Install it through Claude Code instead: claude plugin install ${skill.name}@toolforge`);
+        process.exit(1);
+      }
+
+      const target = resolve(destination, assertSafeName(skill.name));
+      await fetchSource(source, target);
+
+      writeFileSync(
+        resolve(target, '.toolforge-install.json'),
+        JSON.stringify(
+          {
+            skill: skill.name,
+            skillId: skill.id,
+            version: targetVersion.version_tag,
+            source: { repo: source.repo, ref: source.ref, sha: source.sha },
+            installedAt: new Date().toISOString(),
+          },
+          null,
+          2
+        )
+      );
+
+      console.log(`✓ Installed ${skill.name} v${targetVersion.version_tag} (${source.repo}@${source.sha.slice(0, 12)})`);
+      console.log(`  Location: ${target}`);
     } catch (error) {
       console.error(`✗ Installation failed: ${error.message}`);
       process.exit(1);
