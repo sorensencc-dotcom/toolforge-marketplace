@@ -7,9 +7,13 @@
 // signed session (req.session.userId) if present, else an `x-user-id` header as
 // a development stand-in. Swap `resolveUser` for real session middleware later;
 // the contract (user from context, not body) stays fixed.
+// In production (NODE_ENV=production) the header is ignored: unauthenticated
+// until a real resolver is supplied.
 
 export function defaultResolveUser(req) {
   if (req.session && req.session.userId) return req.session.userId;
+  // The header is spoofable by any client, so it is a development stand-in only.
+  if (process.env.NODE_ENV === 'production') return null;
   const header = req.headers['x-user-id'];
   if (typeof header === 'string' && header.trim() !== '') return header.trim();
   return null;

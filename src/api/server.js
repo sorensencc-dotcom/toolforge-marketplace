@@ -22,7 +22,9 @@ dotenv.config();
 export function createApp(db, { resolveUser, limiter, provider } = {}) {
   const app = express();
 
-  app.use(cors());
+  // CORS_ORIGINS: comma-separated allow-list. Unset => open in dev, closed in production.
+  const origins = (process.env.CORS_ORIGINS || '').split(',').map((o) => o.trim()).filter(Boolean);
+  app.use(cors(origins.length ? { origin: origins } : process.env.NODE_ENV === 'production' ? { origin: false } : undefined));
   app.use(express.json());
   app.use(attachUser(resolveUser));
 
