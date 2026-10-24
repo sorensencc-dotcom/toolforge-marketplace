@@ -1,5 +1,4 @@
 import { resolve } from 'node:path';
-import { writeFileSync, mkdirSync } from 'node:fs';
 
 export default {
   command: 'install <skill-name>',
@@ -88,39 +87,11 @@ export default {
         console.log(`Installing ${skill.name} v${targetVersion.version_tag}`);
       }
 
-      // Create installation record
-      const userId = process.env.USER || 'cli-user';
-      try {
-        // Note: Would need to call a logging endpoint
-        // For now, just simulate the installation
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        if (argv.verbose) {
-          console.warn(`Warning: Could not log installation: ${error.message}`);
-        }
-      }
-
-      // Create installation metadata
-      mkdirSync(destination, { recursive: true });
-      const installMetadata = {
-        skill: skill.name,
-        skillId: skill.id,
-        version: targetVersion.version_tag,
-        installedAt: new Date().toISOString(),
-        entrypoint: skill.manifest_json?.entrypoint || 'index.js',
-        runtime: skill.manifest_json?.runtime || 'node',
-      };
-
-      writeFileSync(
-        `${destination}/.toolforge-install.json`,
-        JSON.stringify(installMetadata, null, 2)
-      );
-
-      console.log(`✓ Successfully installed ${skill.name} v${targetVersion.version_tag}`);
-      console.log(`  Location: ${destination}`);
-      if (skill.manifest_json?.entrypoint) {
-        console.log(`  Entrypoint: ${skill.manifest_json.entrypoint}`);
-      }
+      // The registry stores a version tag and checksum but no downloadable package,
+      // so there is nothing to fetch. Fail instead of reporting a fake install.
+      console.error(`✗ Cannot install ${skill.name} v${targetVersion.version_tag}: package download is not implemented.`);
+      console.error(`  Install it through Claude Code instead: claude plugin install ${skill.name}@toolforge`);
+      process.exit(1);
     } catch (error) {
       console.error(`✗ Installation failed: ${error.message}`);
       process.exit(1);
