@@ -35,6 +35,9 @@ jobs:
       - name: Register PDF Plugin
         run: node src/cli/index.js plugins add toolforge-pdf
 
+      - name: Lint
+        run: npm run lint
+
       - name: Run Unit and API Tests
         run: npm test
 
