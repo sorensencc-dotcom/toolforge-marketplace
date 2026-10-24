@@ -6,6 +6,7 @@
   "main": "src/api/server.js",
   "scripts": {
     "migrate": "node src/db/migrate.js",
+    "version:publish": "node scripts/publish-version.js",
     "migrate:reset": "psql $DATABASE_URL -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;' && npm run migrate",
     "trending:refresh": "node src/services/trending-batch.js",
     "trending:schedule": "pwsh src/services/trending-scheduler.ps1",

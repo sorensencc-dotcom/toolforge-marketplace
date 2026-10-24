@@ -1,11 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert';
 import http from 'node:http';
-import { execFile, execFileSync } from 'node:child_process';
+import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { dirname, resolve } from 'node:path';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, symlinkSync, readdirSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { mkdtempSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
+import { makeGitFixture } from '../test-utils/git-fixture.js';
 
 const execFileAsync = promisify(execFile);
 const cliPath = resolve(import.meta.dirname, 'index.js');
@@ -21,38 +22,6 @@ function startMockApi({ name = 'demo', versions }) {
     res.end(JSON.stringify(body));
   });
   return new Promise((done) => server.listen(0, () => done(server)));
-}
-
-// A bare repo at <base>/acme/demo.git with one commit. `files` maps a repo path to
-// its content, or to { symlink: target } for a symbolic link. Returns the base dir
-// and the commit SHA.
-const DEFAULT_FILES = { 'SKILL.md': '# demo\n' };
-
-function makeGitFixture(files = DEFAULT_FILES) {
-  const base = mkdtempSync(resolve(tmpdir(), 'tf-git-'));
-  const work = resolve(base, 'work');
-  mkdirSync(work);
-  const git = (cwd, ...args) =>
-    execFileSync('git', args, {
-      cwd,
-      encoding: 'utf8',
-      env: { ...process.env, GIT_CONFIG_GLOBAL: '/dev/null', GIT_CONFIG_NOSYSTEM: '1' },
-    }).trim();
-  git(work, 'init', '-q', '-b', 'main');
-  git(work, 'config', 'user.email', 'test@example.com');
-  git(work, 'config', 'user.name', 'Test');
-  for (const [path, content] of Object.entries(files)) {
-    const full = resolve(work, path);
-    mkdirSync(dirname(full), { recursive: true });
-    if (typeof content === 'object') symlinkSync(content.symlink, full);
-    else writeFileSync(full, content);
-  }
-  git(work, 'add', '-A');
-  git(work, 'commit', '-q', '-m', 'init');
-  const sha = git(work, 'rev-parse', 'HEAD');
-  mkdirSync(resolve(base, 'acme'));
-  git(base, 'clone', '-q', '--bare', work, resolve(base, 'acme', 'demo.git'));
-  return { base, sha };
 }
 
 async function runInstall(server, dest, { env = {}, args = [] } = {}) {
