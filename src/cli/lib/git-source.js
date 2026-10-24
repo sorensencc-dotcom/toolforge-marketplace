@@ -20,11 +20,14 @@ const SHA_PATTERN = /^[0-9a-f]{40}$/;
 const NAME_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const PATH_PATTERN = /^[A-Za-z0-9_.-]+(\/[A-Za-z0-9_.-]+)*$/;
 
+export const isSafeRepo = (repo) => typeof repo === 'string' && REPO_PATTERN.test(repo) && !repo.includes('..');
+export const isFullSha = (sha) => typeof sha === 'string' && SHA_PATTERN.test(sha);
+
 /**
  * Same rules as the versions_source_path_format CHECK constraint: a relative,
  * normalized path with no '.' or '..' segments and nothing inside .git.
  */
-function isSafeSourcePath(path) {
+export function isSafeSourcePath(path) {
   return (
     typeof path === 'string' &&
     path.length <= 255 &&
@@ -108,6 +111,50 @@ export async function fetchSource({ repo, sha, path = null }, target, { baseUrl 
   } finally {
     if (staging) rmSync(staging, { recursive: true, force: true });
   }
+}
+
+const REF_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._/-]*$/;
+
+/**
+ * Resolve a tag, branch, or full commit SHA on `repo` to a full commit SHA.
+ * Annotated tags are peeled to the commit they point at. When a tag and a branch
+ * share the name, the tag wins and `note` says so. A bare SHA is returned as is;
+ * fetchSource later proves it exists.
+ * @returns {Promise<{sha: string, kind: 'sha'|'tag'|'branch', note: (string|null)}>}
+ */
+export async function resolveRef(repo, ref, { baseUrl } = {}) {
+  if (!isSafeRepo(repo)) throw new Error(`invalid repository: ${JSON.stringify(repo)}`);
+  if (typeof ref !== 'string' || ref.length > 255 || !REF_PATTERN.test(ref) || ref.includes('..')) {
+    throw new Error(`invalid ref: ${JSON.stringify(ref)}`);
+  }
+  if (/^[0-9a-fA-F]{40}$/.test(ref)) return { sha: ref.toLowerCase(), kind: 'sha', note: null };
+
+  const base = (baseUrl || process.env.TOOLFORGE_GIT_BASE_URL || 'https://github.com').replace(/\/+$/, '');
+  let stdout;
+  try {
+    ({ stdout } = await execFileAsync(
+      'git',
+      ['ls-remote', `${base}/${repo}.git`, `refs/tags/${ref}`, `refs/tags/${ref}^{}`, `refs/heads/${ref}`],
+      { env: gitEnv() }
+    ));
+  } catch (error) {
+    const detail = (error.stderr || error.message || '').toString().trim().split('\n').pop();
+    throw new Error(`could not list refs of ${repo}: ${detail}`);
+  }
+
+  const refs = new Map();
+  for (const line of stdout.split('\n')) {
+    const [sha, name] = line.split('\t');
+    if (SHA_PATTERN.test(sha || '') && name) refs.set(name, sha);
+  }
+  const tag = refs.get(`refs/tags/${ref}^{}`) || refs.get(`refs/tags/${ref}`);
+  const branch = refs.get(`refs/heads/${ref}`);
+  if (tag) {
+    const note = branch && branch !== tag ? `${ref} is both a tag and a branch; using the tag` : null;
+    return { sha: tag, kind: 'tag', note };
+  }
+  if (branch) return { sha: branch, kind: 'branch', note: `${ref} is a branch, which moves; the SHA recorded is its tip right now` };
+  throw new Error(`ref ${ref} not found in ${repo}`);
 }
 
 async function checkoutCommit(url, sha, dir) {

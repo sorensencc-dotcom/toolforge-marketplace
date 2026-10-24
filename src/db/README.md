@@ -91,6 +91,26 @@ const trending = await schema.getTrendingMetrics(db, {
 - **Get versions:** <50ms (p99)
 - **Get trending:** <100ms (p99)
 
+## Publishing a version
+
+`npm run version:publish` records a version of an existing skill, pinned to a git commit, so `toolforge install` can fetch it. It is an offline operator tool: it writes straight to the database, so running it with `--apply` is the act of publishing. Nothing in the API can do this.
+
+```bash
+# dry run (default): resolves the ref, checks the source can be installed, prints the row
+npm run version:publish -- --skill alpha --tag 1.0.0 --repo owner/name --ref v1.0.0 --path plugins/alpha
+
+# write it (needs DATABASE_URL, which has no default on purpose)
+DATABASE_URL=postgres://... npm run version:publish -- --skill alpha --tag 1.0.0 --repo owner/name --ref v1.0.0 --path plugins/alpha --apply
+```
+
+- `--ref` is a tag, branch, or full commit SHA. It is resolved to a full SHA; annotated tags are peeled to their commit. A branch is accepted with a warning, because it moves: the SHA recorded is its tip at that moment.
+- `--path` is the subdirectory that holds the plugin; leave it off when the plugin is the whole repository.
+- Before anything is written, the exact install the CLI would run (fetch, `HEAD` check, subdirectory, symlink check) runs into a temp directory, so only an installable source is recorded.
+- Versions are immutable. Re-running with the same source is a no-op; a different source under an existing tag is refused. Publish a new tag instead.
+- `versions.checksum` is `git:<sha>` or `git:<sha>:<path>`. The path keeps it unique when several plugins share one commit.
+- The skill must already exist. The script creates versions, not skills.
+- `TOOLFORGE_GIT_BASE_URL` overrides the git host, as it does for `install`.
+
 ## Schema Immutability (Phase 9)
 
 Schema is **frozen** after 2026-07-31. All changes via migrations only (append-only approach).
