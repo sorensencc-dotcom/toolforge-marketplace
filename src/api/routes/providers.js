@@ -1,7 +1,6 @@
 // Providers route. Mounted at /api/v1/providers.
 import express from 'express';
 import { getProvider } from '../../providers/index.js';
-import { runAdversarialCrossAudit } from '../../../modules/healing/adversarial-auditor.js';
 import { requireAuth } from '../middleware/auth.js';
 import { rateLimit } from '../middleware/rate-limit.js';
 
@@ -129,12 +128,12 @@ export function createProvidersRouter(customProvider, { limiter } = {}) {
         });
       }
 
-      const verdict = await runAdversarialCrossAudit(auditPacket, req.provider);
-      res.json({
-        success: true,
+      // Stub: modules/healing/adversarial-auditor.js is not in this repo. Fail closed
+      // with 501 rather than return a verdict nothing computed. Restore the import
+      // and call runAdversarialCrossAudit(auditPacket, req.provider) when it lands.
+      return res.status(501).json({
+        error: 'Audit not implemented',
         packetId: auditPacket.packetId,
-        verdict,
-        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unknown error';
