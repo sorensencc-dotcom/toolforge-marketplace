@@ -1,0 +1,35 @@
+{
+  "versions": [
+    {
+      "skill": "worktree-cleanup",
+      "tag": "1.0.0",
+      "repo": "sorensencc-dotcom/toolforge-marketplace",
+      "ref": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "sha": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "path": "plugins/worktree-cleanup"
+    },
+    {
+      "skill": "morning-ingestion-pass",
+      "tag": "1.0.0",
+      "repo": "sorensencc-dotcom/toolforge-marketplace",
+      "ref": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "sha": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "path": "plugins/morning-ingestion-pass"
+    },
+    {
+      "skill": "operational-ideas-harvest",
+      "tag": "1.0.0",
+      "repo": "sorensencc-dotcom/toolforge-marketplace",
+      "ref": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "sha": "d06e842227f76530dfbc50383c47ef8cd3b7cd39",
+      "path": "plugins/operational-ideas-harvest"
+    },
+    {
+      "skill": "toolforge-core",
+      "tag": "2.95.7",
+      "repo": "sorensencc-dotcom/toolforge",
+      "ref": "v2.95.7",
+      "sha": "bdd6dca8d0a05df96c0a2633764b493620aed28f"
+    }
+  ]
+}

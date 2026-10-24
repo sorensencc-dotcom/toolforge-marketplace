@@ -111,6 +111,16 @@ DATABASE_URL=postgres://... npm run version:publish -- --skill alpha --tag 1.0.0
 - The skill must already exist. The script creates versions, not skills.
 - `TOOLFORGE_GIT_BASE_URL` overrides the git host, as it does for `install`.
 
+### Backfilling the catalog
+
+`npm run version:backfill` publishes every entry in `scripts/backfill-versions.json` through the same checks, so each catalog plugin gets an installable version. It is a dry run unless you pass `--apply`, and it needs `DATABASE_URL` to check or write the registry.
+
+- Each entry names the `skill`, version `tag`, `repo`, `ref`, optional `path`, and the `sha` the ref must resolve to. A tag that has moved off its commit is refused.
+- The three local plugins are pinned to a commit of this repository by SHA, because the repository has no tags yet. To use a tag, create it, then set `ref` to the tag name; `sha` stays the same.
+- `toolforge-core` mirrors the pin in `.claude-plugin/marketplace.json`. A test fails if the list and the catalog disagree.
+- Skills must already exist in the registry: nothing in this repository creates them. An entry whose skill is missing fails with a plain message; the others still run, and a re-run finishes the job.
+- To publish a new version of a plugin, add an entry with a new `tag`. Do not edit an existing one: published versions are immutable.
+
 ## Schema Immutability (Phase 9)
 
 Schema is **frozen** after 2026-07-31. All changes via migrations only (append-only approach).

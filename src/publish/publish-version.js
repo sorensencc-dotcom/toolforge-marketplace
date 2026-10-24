@@ -23,10 +23,11 @@ import { parseVersion } from '../validators/semver.js';
  * @param {string} [args.path] subdirectory of the repo that holds the plugin
  * @param {string} [args.changelog]
  * @param {boolean} [args.apply] write the row; otherwise report what would be written
+ * @param {string} [args.expectSha] full commit SHA the ref must resolve to; guards against a moved tag
  * @param {string} [args.baseUrl] git host, default TOOLFORGE_GIT_BASE_URL then GitHub
  * @returns {Promise<{status: 'dry-run'|'created'|'unchanged', record: object, notes: string[]}>}
  */
-export async function publishVersion({ db, skill, tag, repo, ref, path = null, changelog = null, apply = false, baseUrl }) {
+export async function publishVersion({ db, skill, tag, repo, ref, path = null, changelog = null, apply = false, expectSha = null, baseUrl }) {
   if (apply && !db) throw new Error('--apply needs a database connection');
   if (typeof skill !== 'string' || skill.trim() === '') throw new Error('skill name is required');
   if (typeof tag !== 'string' || tag.length > 50) throw new Error(`invalid version tag: ${JSON.stringify(tag)}`);
@@ -36,6 +37,9 @@ export async function publishVersion({ db, skill, tag, repo, ref, path = null, c
 
   const notes = [];
   const resolved = await resolveRef(repo, ref, { baseUrl });
+  if (expectSha !== null && resolved.sha !== expectSha) {
+    throw new Error(`${ref} resolves to ${resolved.sha}, not the expected ${expectSha}; the ref has moved or the expectation is wrong`);
+  }
   if (resolved.note) notes.push(resolved.note);
 
   const scratch = mkdtempSync(join(tmpdir(), 'tf-publish-'));
