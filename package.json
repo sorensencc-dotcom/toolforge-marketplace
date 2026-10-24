@@ -6,6 +6,7 @@
   "main": "src/api/server.js",
   "scripts": {
     "migrate": "node src/db/migrate.js",
+    "skill:create": "node scripts/create-skills.js",
     "version:publish": "node scripts/publish-version.js",
     "version:backfill": "node scripts/backfill-versions.js",
     "migrate:reset": "psql $DATABASE_URL -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;' && npm run migrate",

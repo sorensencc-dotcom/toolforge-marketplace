@@ -118,8 +118,18 @@ DATABASE_URL=postgres://... npm run version:publish -- --skill alpha --tag 1.0.0
 - Each entry names the `skill`, version `tag`, `repo`, `ref`, optional `path`, and the `sha` the ref must resolve to. A tag that has moved off its commit is refused.
 - The three local plugins are pinned to a commit of this repository by SHA, because the repository has no tags yet. To use a tag, create it, then set `ref` to the tag name; `sha` stays the same.
 - `toolforge-core` mirrors the pin in `.claude-plugin/marketplace.json`. A test fails if the list and the catalog disagree.
-- Skills must already exist in the registry: nothing in this repository creates them. An entry whose skill is missing fails with a plain message; the others still run, and a re-run finishes the job.
+- Skills must already exist in the registry; create the catalog's with `npm run skill:create` first (below). An entry whose skill is missing fails with a plain message; the others still run, and a re-run finishes the job.
 - To publish a new version of a plugin, add an entry with a new `tag`. Do not edit an existing one: published versions are immutable.
+
+### Creating the catalog's skills
+
+`npm run skill:create` creates a registry skill for each plugin in `.claude-plugin/marketplace.json`, so `version:backfill` has something to attach versions to. It is a dry run unless you pass `--apply`, and it needs `DATABASE_URL` to check or write the registry.
+
+- Everything comes from the catalog except the category: `name` and `description` from the marketplace entry, `owner` from the marketplace owner ("Cast Iron Productions LLC"), and `manifest_json` from the plugin's own `plugin.json`. A plugin hosted in another repository with no manifest at its root (`toolforge-core`) uses its marketplace entry.
+- The catalog has no category, so each plugin needs an entry in the `skills` section of `scripts/backfill-versions.json`. Categories must come from the spec's vocabulary: `monitoring`, `pipeline`, `utility`, `integration`, `governance`. A test fails if the section and the catalog disagree.
+- The category navigation reads the `categories` table, not `skills.category`. A skill whose category has no row there would be listed and installable but missing from the navigation and its counts, so the command adds the missing category rows in the same transaction.
+- It never overwrites. A skill that already exists is left as it is, and any difference from the catalog is listed, so check what the command reports before assuming the registry matches.
+- With `--apply`, the skills and category rows are written in one transaction: if anything fails, none are.
 
 ## Schema Immutability (Phase 9)
 
