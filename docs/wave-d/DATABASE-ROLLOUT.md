@@ -1,6 +1,6 @@
 # Database rollout — open items
 
-**Status:** open. Last updated 2026-10-24. Tick a box only when it is done against the **provisioned** PostgreSQL, not a scratch one.
+**Status:** open. Last updated 2026-10-25. Tick a box only when it is done against the **provisioned** PostgreSQL, not a scratch one.
 
 The code for the registry is merged. Nothing below has been run against a real database. Everything so far ran on throwaway local Postgres 16 instances that were deleted afterwards. Tier 1 ruled on 2026-07-14 that an ad-hoc local database is not a conformance signal, and that still holds.
 
@@ -34,7 +34,7 @@ Run each command as a dry run first, read the output, then add `--apply`.
 ### Tag this repository
 
 - [ ] Create tag `v1.0.0` on commit `d06e842227f76530dfbc50383c47ef8cd3b7cd39`, then change the three local plugin entries in `scripts/backfill-versions.json` from that SHA to `"ref": "v1.0.0"`. Leave `sha` as it is: it guards against a tag that moves.
-  - **Blocker:** the automated session that wrote this cannot push tags (the Git server drops the push). Run it yourself:
+  - **Blocker:** the automated session that wrote this cannot push tags (the Git server drops the push). As of 2026-10-25 the tag is not on the remote. Run it yourself:
     `git tag -a v1.0.0 d06e842227f76530dfbc50383c47ef8cd3b7cd39 -m "toolforge-marketplace v1.0.0" && git push origin v1.0.0`
     or create a GitHub release for `v1.0.0` that targets that commit.
   - Do this **before** the real backfill if you want readable refs in the registry. `source_ref` is recorded as given, and published versions are immutable.
@@ -50,7 +50,7 @@ The gate needs a live run. From `AGENTS.md` in the toolforge repo, decided by Ti
 
 ## 5. Decisions recorded elsewhere
 
-- [ ] Spec amendment: the commit SHA is the integrity check, replacing `sha256-<hash>` for git-sourced versions. Tier 1 has approved this; the spec change is a separate pull request in the toolforge repo.
+- [x] Spec amendment: the commit SHA is the integrity check, replacing `sha256-<hash>` for git-sourced versions. Merged by Tier 1 as toolforge pull request #234 (spec v1.1, 2026-10-24).
 - Not built, by decision: the spec's `toolforge submit` and approval flow. Revisit when someone other than the owner publishes skills. Until then, `--apply` on the publish scripts is the act of publishing, and nothing in the API can do it.
 
 ## If something looks wrong after `--apply`
